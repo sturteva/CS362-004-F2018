@@ -1,2 +1,0 @@
-Andrew Sturteva
-sturteva

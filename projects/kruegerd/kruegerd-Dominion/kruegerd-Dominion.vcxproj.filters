@@ -21,6 +21,18 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\dominion\dominion.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dominion\dominion_helpers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dominion\interface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dominion\rngs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -29,5 +41,99 @@
     <ClCompile Include="kruegerd-Dominion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\dominion\badTestDrawCard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\betterTestDrawCard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\dominion.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\interface.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\playdom.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\rngs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\rt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\supplyTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\testBuyCard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\testDrawCard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\testInit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dominion\testShuffle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\dominion\badTestDrawCard">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\dominion.gcda">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\dominion.gcno">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\interface.gcno">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\Makefile">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\Makefile~">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\playdom">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\playdom.gcda">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\playdom.gcno">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\player">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\player.gcno">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\READM.md">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\rngs.gcda">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\dominion\rngs.gcno">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\dominion\dominion.o">
+      <Filter>Source Files</Filter>
+    </Object>
+    <Object Include="..\dominion\interface.o">
+      <Filter>Source Files</Filter>
+    </Object>
+    <Object Include="..\dominion\rngs.o">
+      <Filter>Source Files</Filter>
+    </Object>
   </ItemGroup>
 </Project>

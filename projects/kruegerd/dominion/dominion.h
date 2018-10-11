@@ -1,6 +1,13 @@
 #ifndef _DOMINION_H
 #define _DOMINION_H
 
+// Added Support for Compiling on Windows Environment
+#ifdef __unix__  // or #ifdef linux
+#endif
+#if defined(_WIN32)  // or #ifdef _WIN32
+	#define _CRT_SECURE_NO_WARNINGS   // dominion.h is not the first file in the other files so you may have to duplicate this define
+#endif
+
 // Code from various sources, baseline from Kristen Bartosz
 
 #define MAX_HAND 500
@@ -14,6 +21,8 @@
 /* http://dominion.isotropic.org has other stuff */
 
 /* hand# means index of a card in current active player's hand */
+
+
 
 enum CARD
   {curse = 0,

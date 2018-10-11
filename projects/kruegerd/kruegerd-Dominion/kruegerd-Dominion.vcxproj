@@ -84,7 +84,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -147,10 +147,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\dominion\dominion.h" />
+    <ClInclude Include="..\dominion\dominion_helpers.h" />
+    <ClInclude Include="..\dominion\interface.h" />
+    <ClInclude Include="..\dominion\rngs.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\dominion\badTestDrawCard.c" />
+    <ClCompile Include="..\dominion\betterTestDrawCard.c" />
+    <ClCompile Include="..\dominion\dominion.c" />
+    <ClCompile Include="..\dominion\interface.c" />
+    <ClCompile Include="..\dominion\playdom.c" />
+    <ClCompile Include="..\dominion\player.c" />
+    <ClCompile Include="..\dominion\rngs.c" />
+    <ClCompile Include="..\dominion\rt.c" />
+    <ClCompile Include="..\dominion\supplyTest.c" />
+    <ClCompile Include="..\dominion\testBuyCard.c" />
+    <ClCompile Include="..\dominion\testDrawCard.c" />
+    <ClCompile Include="..\dominion\testInit.c" />
+    <ClCompile Include="..\dominion\testShuffle.c" />
     <ClCompile Include="kruegerd-Dominion.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -158,6 +175,27 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\dominion\badTestDrawCard" />
+    <None Include="..\dominion\dominion.gcda" />
+    <None Include="..\dominion\dominion.gcno" />
+    <None Include="..\dominion\interface.gcno" />
+    <None Include="..\dominion\Makefile" />
+    <None Include="..\dominion\Makefile~" />
+    <None Include="..\dominion\playdom" />
+    <None Include="..\dominion\playdom.gcda" />
+    <None Include="..\dominion\playdom.gcno" />
+    <None Include="..\dominion\player" />
+    <None Include="..\dominion\player.gcno" />
+    <None Include="..\dominion\READM.md" />
+    <None Include="..\dominion\rngs.gcda" />
+    <None Include="..\dominion\rngs.gcno" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\dominion\dominion.o" />
+    <Object Include="..\dominion\interface.o" />
+    <Object Include="..\dominion\rngs.o" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kruegerd-Dominion", "kruegerd-Dominion.vcxproj", "{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Debug|x64.ActiveCfg = Debug|x64
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Debug|x64.Build.0 = Debug|x64
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Debug|x86.ActiveCfg = Debug|Win32
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Debug|x86.Build.0 = Debug|Win32
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Release|x64.ActiveCfg = Release|x64
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Release|x64.Build.0 = Release|x64
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Release|x86.ActiveCfg = Release|Win32
+		{10FF2F2E-6ECC-46A0-8871-B2B0BEEFD02C}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95C64E11-60C0-4E04-B236-8793F70C0FE1}
+	EndGlobalSection
+EndGlobal

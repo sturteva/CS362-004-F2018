@@ -157,7 +157,9 @@
   <ItemGroup>
     <ClCompile Include="..\dominion\badTestDrawCard.c" />
     <ClCompile Include="..\dominion\betterTestDrawCard.c" />
-    <ClCompile Include="..\dominion\dominion.c" />
+    <ClCompile Include="..\dominion\dominion.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\dominion\interface.c" />
     <ClCompile Include="..\dominion\playdom.c" />
     <ClCompile Include="..\dominion\player.c" />

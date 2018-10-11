@@ -2,4 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/projects/kruegerd/kruegerd-Dominion/New Text Document.txt
+/projects/kruegerd/kruegerd-Dominion/.vs/*
+/projects/kruegerd/kruegerd-Dominion/DEBUG
+/projects/kruegerd/kruegerd-Dominion/x64/*
+*.obj

@@ -14,7 +14,7 @@ int compare(const void* a, const void* b) {
 }
 
 struct gameState* newGame() {
-  struct gameState* g = malloc(sizeof(struct gameState));
+  struct gameState* g = (struct gameState*)malloc(sizeof(struct gameState));
   return g;
 }
 
@@ -213,7 +213,7 @@ int shuffle(int player, struct gameState *state) {
   /* SORT CARDS IN DECK TO ENSURE DETERMINISM! */
 
   while (state->deckCount[player] > 0) {
-    card = floor(Random() * state->deckCount[player]);
+    card = (int)floor(Random() * state->deckCount[player]);
     newDeck[newDeckPos] = state->deck[player][card];
     newDeckPos++;
     for (i = card; i < state->deckCount[player]-1; i++) {

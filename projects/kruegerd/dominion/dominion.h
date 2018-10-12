@@ -147,6 +147,6 @@ int cardEffectSmithy(int card, int choice1, int choice2, int choice3, struct gam
 int cardEffectAdventurer(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
 int cardEffectGardens(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
 int cardEffectVillage(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
-int cardEffectCatPurse(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int cardEffectCutPurse(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
 #endif

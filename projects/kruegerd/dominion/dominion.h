@@ -34,7 +34,7 @@ enum CARD
    copper,
    silver,
    gold,
-
+	/* NOTE:  the cards from adventure to treasure_map are all action cards.  By putting them in oder here then they can be accessed by their numerical (enumerated) value. */
    adventurer, /* Adventure is an action card, "Reveal cards from your deck until you reveal 2 treasure cards.  Put those Treasure cards into your hadn and discard the other revealed cards."*/
    /* If no/only 1 treasure found, stop when full deck seen */
    council_room,
@@ -138,4 +138,15 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 /* Set array position of each player who won (remember ties!) to
    1, others to 0 */
 
+/* Card Effects are the impact playing a card has on the game.  When a card is played it's effect is called and the gameState is altered to 
+reflect the effect on the game.  
+
+cardEffect is the original function and left as the default for other cards that are no included in the 5 functions explicetly called. 
+*/
+int cardEffectSmithy(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int cardEffectAdventurer(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int cardEffectGardens(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int cardEffectVillage(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int cardEffectCatPurse(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
+int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus);
 #endif

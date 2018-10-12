@@ -14,7 +14,7 @@ int compare(const void* a, const void* b) {
 }
 
 struct gameState* newGame() {
-  struct gameState* g = (struct gameState*)malloc(sizeof(struct gameState));
+  struct gameState* g = malloc(sizeof(struct gameState));
   return g;
 }
 
@@ -213,7 +213,7 @@ int shuffle(int player, struct gameState *state) {
   /* SORT CARDS IN DECK TO ENSURE DETERMINISM! */
 
   while (state->deckCount[player] > 0) {
-    card = (int)floor(Random() * state->deckCount[player]);
+    card = floor(Random() * state->deckCount[player]);
     newDeck[newDeckPos] = state->deck[player][card];
     newDeckPos++;
     for (i = card; i < state->deckCount[player]-1; i++) {
@@ -229,45 +229,45 @@ int shuffle(int player, struct gameState *state) {
   return 0;
 }
 
-int playCard(int handPos, int choice1, int choice2, int choice3, struct gameState *state) 
-{	
-  int card;
-  int coin_bonus = 0; 		//tracks coins gain from actions
+int playCard(int handPos, int choice1, int choice2, int choice3, struct gameState *state)
+{
+	int card;
+	int coin_bonus = 0; 		//tracks coins gain from actions
 
-  //check if it is the right phase
-  if (state->phase != 0)
-    {
-      return -1;
-    }
-	
-  //check if player has enough actions
-  if ( state->numActions < 1 )
-    {
-      return -1;
-    }
-	
-  //get card played
-  card = handCard(handPos, state);
-	
-  //check if selected card is an action
-  if ( card < adventurer || card > treasure_map )
-    {
-      return -1;
-    }
-	
-  //play card
-  if ( cardEffect(card, choice1, choice2, choice3, state, handPos, &coin_bonus) < 0 )
-    {
-      return -1;
-    }
-	
-  //reduce number of actions
-  state->numActions--;
+	//check if it is the right phase
+	if (state->phase != 0)
+	{
+		return -1;
+	}
 
-  //update coins (Treasure cards may be added with card draws)
-  updateCoins(state->whoseTurn, state, coin_bonus);
-	
-  return 0;
+	//check if player has enough actions
+	if (state->numActions < 1)
+	{
+		return -1;
+	}
+
+	//get card played
+	card = handCard(handPos, state);
+
+	//check if selected card is an action
+	if (card < adventurer || card > treasure_map)
+	{
+		return -1;
+	}
+
+	//play card
+	if (cardEffect(card, choice1, choice2, choice3, state, handPos, &coin_bonus) < 0)
+	{
+		return -1;
+	}
+
+	//reduce number of actions
+	state->numActions--;
+
+	//update coins (Treasure cards may be added with card draws)
+	updateCoins(state->whoseTurn, state, coin_bonus);
+
+	return 0;
 }
 
 int buyCard(int supplyPos, struct gameState *state) {
@@ -313,6 +313,7 @@ int numHandCards(struct gameState *state) {
   return state->handCount[ whoseTurn(state) ];
 }
 
+// returns an integer value correlating with the card type (enumerated value)
 int handCard(int handPos, struct gameState *state) {
   int currentPlayer = whoseTurn(state);
   return state->hand[currentPlayer][handPos];
@@ -644,6 +645,9 @@ int getCost(int cardNumber)
   return -1;
 }
 
+// when a card is played in playCard, the card is identified and this function is called. 
+//		gameState object is modified to reflect the effect of the card.
+//		Returns -1 if there is an error otherwise Returns 0 on success. 
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
   int i;
@@ -1223,6 +1227,14 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	
   return -1;
 }
+
+int cardEffectSmithy(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus){
+	return 0;
+}
+int cardEffectAdventurer(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) { return 0; }
+int cardEffectGardens(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) { return 0; }
+int cardEffectVillage(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) { return 0; }
+int cardEffectCatPurse(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) { return 0; }
 
 int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag)
 {

@@ -3,13 +3,18 @@
 #include "rngs.h"
 #include <stdlib.h>
 
+
+
 int main (int argc, char** argv) {
   struct gameState G;
 
 	// k is the cards passed to the initialize game.  10 was hard coded
-  int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
+	// original 
+  /*int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
            sea_hag, tribute, smithy};
-
+*/
+	
+	int k[NUM_KINGDOM_CARDS] = { smithy, adventurer, gardens, village, cutpurse };
   printf ("Starting game.\n");
 
 	// TODO:  initializeGame can return -1 if it doesn't initialize.  No provision for this is accounted for - danKrueger
@@ -85,7 +90,7 @@ int main (int argc, char** argv) {
       printf("0: end turn\n");
       endTurn(&G);
     }
-    else {
+    else { // other player's turn (not player 0)
       if (adventurerPos != -1) {
         printf("1: adventurer played from position %d\n", adventurerPos);
         playCard(adventurerPos, -1, -1, -1, &G);

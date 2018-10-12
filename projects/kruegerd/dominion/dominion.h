@@ -14,6 +14,7 @@
 #define MAX_DECK 500
 
 #define MAX_PLAYERS 4
+#define NUM_KINGDOM_CARDS 5  // the number of cards the players can draw from and put in their hands. (AKA Supply Pile Kindom Cards)
 
 #define DEBUG 0
 
@@ -23,7 +24,7 @@
 /* hand# means index of a card in current active player's hand */
 
 
-
+/* Every Card in the Dominion Game --- (not all cards are chosen to play in any instance of a game) */
 enum CARD
   {curse = 0,
    estate,

@@ -34,8 +34,8 @@ struct gameState* newGame() {
 //  return k;
 //}
 
-// returns -1 if initialzation ran into an error (ie numPlayers > MaxPlayers or <2 )
-int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
+// returns -1 if initialzation ran into an error (ie numPlayers > MaxPlayers or <2 ) ... selecting duplicate kingdom cards etc
+int initializeGame(int numPlayers, int kingdomCards[NUM_KINGDOM_CARDS], int randomSeed,
 	struct gameState *state) {
 
 	int i;
@@ -55,9 +55,9 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 	state->numPlayers = numPlayers;
 
 	//check selected kingdom cards are different
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < NUM_KINGDOM_CARDS; i++)
 	{
-		for (j = 0; j < 10; j++)
+		for (j = 0; j < NUM_KINGDOM_CARDS; j++)
 		{
 			if (j != i && kingdomCards[j] == kingdomCards[i])
 			{
@@ -106,7 +106,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 	//set number of Kingdom cards
 	for (i = adventurer; i <= treasure_map; i++)       	//loop all cards (listed in the dominion.h deck)
 	{
-		for (j = 0; j < 10; j++)           		//loop chosen cards
+		for (j = 0; j < NUM_KINGDOM_CARDS; j++)           		//loop chosen cards
 		{
 			if (kingdomCards[j] == i)
 			{

@@ -6,3 +6,10 @@
 /projects/kruegerd/kruegerd-Dominion/DEBUG
 /projects/kruegerd/kruegerd-Dominion/x64/*
 *.obj
+/projects/kruegerd/kruegerd-Dominion/cmd.exe.lnk
+/projects/kruegerd/kruegerd-Dominion/dominion_c
+/projects/kruegerd/kruegerd-Dominion/playdom_c
+/projects/kruegerd/kruegerd-dominion-windows-console
+*.idb
+*.log
+*.pch

@@ -1,0 +1,14 @@
+###############################################
+# Files to ignore during commit 
+###############################################
+
+*.o
+*.gcno
+*.gcda
+
+# ignore Executables
+playdom
+testDrawCard
+testSuite
+badTestDrawCard
+

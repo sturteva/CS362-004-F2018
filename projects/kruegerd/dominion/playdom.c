@@ -5,12 +5,15 @@
 
 int main (int argc, char** argv) {
   struct gameState G;
+
+	// k is the cards passed to the initialize game.  10 was hard coded
   int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
            sea_hag, tribute, smithy};
 
   printf ("Starting game.\n");
 
-  initializeGame(2, k, atoi(argv[1]), &G);
+	// TODO:  initializeGame can return -1 if it doesn't initialize.  No provision for this is accounted for - danKrueger
+  initializeGame(2, k, atoi(argv[1]), &G); // call signature -> (numplayers, cardDeck, random seed, gameState Object)
 
   int money = 0;
   int smithyPos = -1;

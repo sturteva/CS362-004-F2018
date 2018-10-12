@@ -34,6 +34,7 @@ int* kingdomCards(int k1, int k2, int k3, int k4, int k5, int k6, int k7,
   return k;
 }
 
+// returns -1 if initialzation ran into an error (ie numPlayers > MaxPlayers or <2 )
 int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 		   struct gameState *state) {
 
@@ -103,61 +104,61 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   state->supplyCount[gold] = 30;
 
   //set number of Kingdom cards
-  for (i = adventurer; i <= treasure_map; i++)       	//loop all cards
-    {
-      for (j = 0; j < 10; j++)           		//loop chosen cards
+	for (i = adventurer; i <= treasure_map; i++)       	//loop all cards (listed in the dominion.h deck)
 	{
-	  if (kingdomCards[j] == i)
-	    {
-	      //check if card is a 'Victory' Kingdom card
-	      if (kingdomCards[j] == great_hall || kingdomCards[j] == gardens)
+		for (j = 0; j < 10; j++)           		//loop chosen cards
 		{
-		  if (numPlayers == 2){ 
-		    state->supplyCount[i] = 8; 
-		  }
-		  else{ state->supplyCount[i] = 12; }
+			if (kingdomCards[j] == i)
+			{
+				//check if card is a 'Victory' Kingdom card
+				if (kingdomCards[j] == great_hall || kingdomCards[j] == gardens)
+				{
+					if (numPlayers == 2) {
+						state->supplyCount[i] = 8;
+					}
+					else { state->supplyCount[i] = 12; }
+				}
+				else // all other cards supply count is 10
+				{
+					state->supplyCount[i] = 10;
+				}
+				break;
+			}
+			else    //card is not in the set choosen for the game
+			{
+				state->supplyCount[i] = -1;
+			}
 		}
-	      else
-		{
-		  state->supplyCount[i] = 10;
-		}
-	      break;
-	    }
-	  else    //card is not in the set choosen for the game
-	    {
-	      state->supplyCount[i] = -1;
-	    }
-	}
 
-    }
+	}
 
   ////////////////////////
   //supply intilization complete
 
-  //set player decks
-  for (i = 0; i < numPlayers; i++)
-    {
-      state->deckCount[i] = 0;
-      for (j = 0; j < 3; j++)
+  //set player decks -- 3 estate cards, 
+	for (i = 0; i < numPlayers; i++)
 	{
-	  state->deck[i][j] = estate;
-	  state->deckCount[i]++;
+		state->deckCount[i] = 0;
+		for (j = 0; j < 3; j++)
+		{
+			state->deck[i][j] = estate; // deck[player][card number j]
+			state->deckCount[i]++; // number of cards in the player 'i's deck.
+		}
+		for (j = 3; j < 10; j++)
+		{
+			state->deck[i][j] = copper;
+			state->deckCount[i]++;
+		}
 	}
-      for (j = 3; j < 10; j++)
-	{
-	  state->deck[i][j] = copper;
-	  state->deckCount[i]++;		
-	}
-    }
 
   //shuffle player decks
-  for (i = 0; i < numPlayers; i++)
-    {
-      if ( shuffle(i, state) < 0 )
+	for (i = 0; i < numPlayers; i++)
 	{
-	  return -1;
+		if (shuffle(i, state) < 0)
+		{
+			return -1;
+		}
 	}
-    }
 
   //draw player hands
   for (i = 0; i < numPlayers; i++)
@@ -195,7 +196,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 
   updateCoins(state->whoseTurn, state, 0);
 
-  return 0;
+  return 0; // 0 means success
 }
 
 int shuffle(int player, struct gameState *state) {

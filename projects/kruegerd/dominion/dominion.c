@@ -18,21 +18,21 @@ struct gameState* newGame() {
   return g;
 }
 
-int* kingdomCards(int k1, int k2, int k3, int k4, int k5, int k6, int k7,
-		  int k8, int k9, int k10) {
-  int* k = malloc(10 * sizeof(int));
-  k[0] = k1;
-  k[1] = k2;
-  k[2] = k3;
-  k[3] = k4;
-  k[4] = k5;
-  k[5] = k6;
-  k[6] = k7;
-  k[7] = k8;
-  k[8] = k9;
-  k[9] = k10;
-  return k;
-}
+//int* kingdomCards(int k1, int k2, int k3, int k4, int k5, int k6, int k7,
+//		  int k8, int k9, int k10) {
+//  int* k = malloc(10 * sizeof(int));
+//  k[0] = k1;
+//  k[1] = k2;
+//  k[2] = k3;
+//  k[3] = k4;
+//  k[4] = k5;
+//  k[5] = k6;
+//  k[6] = k7;
+//  k[7] = k8;
+//  k[8] = k9;
+//  k[9] = k10;
+//  return k;
+//}
 
 // returns -1 if initialzation ran into an error (ie numPlayers > MaxPlayers or <2 )
 int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,

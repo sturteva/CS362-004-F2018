@@ -1146,6 +1146,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		}
 		case treasure_map:
 		{
+			int i;
 			//search hand for another treasure_map
 			index = -1;
 			for (i = 0; i < state->handCount[currentPlayer]; i++)
@@ -1182,6 +1183,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
 int cardEffectSmithy(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus){
 	int currentPlayer = whoseTurn(state);
+	int i;
 	//+3 Cards
 	for (i = 0; i < 3; i++)
 	{
@@ -1229,7 +1231,10 @@ int cardEffectAdventurer(int card, int choice1, int choice2, int choice3, struct
 	}
 	return 0;
 }
-int cardEffectGardens(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) { return -1; }
+int cardEffectGardens(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) { 
+	int currentPlayer = whoseTurn(state);
+	drawCard(currentPlayer, state);
+	return -1; }
 int cardEffectVillage(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
 	int currentPlayer = whoseTurn(state);

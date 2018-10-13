@@ -1211,7 +1211,7 @@ int cardEffectAdventurer(int card, int choice1, int choice2, int choice3, struct
 	if (nextPlayer > (state->numPlayers - 1)) { /// BUG --> Because the original calling function will have already incremented the player
 		nextPlayer = 0;
 	}
-	while (drawntreasure < 2) {
+	while (drawntreasure <= 2) { // BUG  should cause an extra treasure card-- orignial --> while (drawntreasure < 2)
 		if (state->deckCount[currentPlayer] < 1) {//if the deck is empty we need to shuffle discard and add to deck
 			shuffle(currentPlayer, state);
 		}
@@ -1239,6 +1239,7 @@ int cardEffectVillage(int card, int choice1, int choice2, int choice3, struct ga
 {
 	int currentPlayer = whoseTurn(state);
 	//+1 Card
+	drawCard(currentPlayer, state);
 	drawCard(currentPlayer, state);
 
 	//+2 Actions

@@ -16,9 +16,18 @@ char *inputString()
     char* ranString;
     ranString = (char*)malloc(6 * sizeof(char));
 
+    
     int i;
     for(i = 0; i < 5; i++){
-        ranString[i] = rand() % 26 + 97;
+
+	//To ensure that we hit the 5 minute mark
+	//we will only randomly generate 'r','e','s','t'
+        int randInt = rand() % 4 + 1;
+
+	if (randInt == 1) ranString[i] = 'r';
+	if (randInt == 2) ranString[i] = 'e';
+	if (randInt == 3) ranString[i] = 's';
+	if (randInt == 4) ranString[i] = 't';
     }
 
     //Guarantee the last character is a null character

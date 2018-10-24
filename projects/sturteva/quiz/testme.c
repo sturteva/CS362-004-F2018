@@ -5,14 +5,27 @@
 
 char inputChar()
 {
-    // TODO: rewrite this function
-    return ' ';
+    //Create a random character from the basic ascii table
+    char ranChar = rand() % 127;
+    return ranChar;
 }
 
 char *inputString()
 {
-    // TODO: rewrite this function
-    return "";
+    //create a string that is any lower-case character
+    char* ranString;
+    ranString = (char*)malloc(6 * sizeof(char));
+
+    int i;
+    for(i = 0; i < 5; i++){
+        ranString[i] = rand() % 26 + 97;
+    }
+
+    //Guarantee the last character is a null character
+    ranString[5] = '\0';
+
+
+    return ranString;
 }
 
 void testme()

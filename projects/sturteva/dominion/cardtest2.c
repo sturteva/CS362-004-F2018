@@ -25,7 +25,7 @@ int main(){
 	else printf("initialization success\n");
 
 	//Ensure that Outpost is in the hand
-	G.hand[0][0] = outpost
+	G.hand[0][0] = outpost;
 	copyG = G;
 	tester = cardEffect(outpost,0,0,0,&copyG,0,&bonus);
 

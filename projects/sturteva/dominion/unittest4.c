@@ -7,7 +7,7 @@
 #define DEBUG 0
 #define NOISY_TEST 1
 
-/*This is designed to test the isGameOver function)
+/*This is designed to test the whoseTurn function)
  *  * */
 int main(){
 

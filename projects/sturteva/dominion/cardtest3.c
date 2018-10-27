@@ -12,8 +12,7 @@ int main(){
 
         int tester;
         int bonus = 0;
-        int k[10] = {adventurer, council_room, feast, gardens, mine,
-               outpost, smithy, village, baron, great_hall};
+        int* k = kingdomCards(adventurer, council_room, feast, gardens, mine,outpost, smithy, village, baron, great_hall);
 
         struct gameState G;
         struct gameState copyG;
@@ -26,6 +25,17 @@ int main(){
 
 	//ensure that the adventuerr card is in the hand
 	G.hand[0][0] = adventurer;
+
+	/*Manually adjust the player deck to ensure that the 
+	 * first two cards drawn are NOT treasures*/
+	int j;
+	for(j = 0; j < G.deckCount[0]-2; j++){
+		G.deck[0][j] = copper;
+	}
+
+	for(j = G.deckCount[0]-2; j< G.deckCount[0]; j++){
+		G.deck[0][j] = estate;
+	}
 
 	copyG = G;
 	tester = cardEffect(adventurer,0,0,0,&copyG,0,&bonus);

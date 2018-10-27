@@ -19,6 +19,9 @@ unittest2: unittest2.c dominion.o rngs.o
 unittest3: unittest3.c dominion.o rngs.o
 	gcc -o unittest3.exe -g unittest3.c dominion.o rngs.o $(CFLAGS)
 
+unittest4: unittest4.c dominion.o rngs.o
+	gcc -o unittest4.exe -g unittest4.c dominion.o rngs.o $(CFLAGS)
+
 testDrawCard: testDrawCard.c dominion.o rngs.o
 	gcc  -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 

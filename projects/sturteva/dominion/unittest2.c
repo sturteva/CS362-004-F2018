@@ -48,20 +48,31 @@ int main(){
 
 	/*Manually Adjust the hand of the player to ensure more coverage*/
 	int add = 3;
+	int deckCount = G.deckCount[1];
+	int handCount = G.handCount[1];
+	int discardCount = G.discardCount[1];
+	int i;
+
 	printf("MANUAL STATE ADJUSTMENTS\n");
-	G.deck[1][7] = add; //Add 3 adventurerers to Player 1 Deck
-	G.deckCount[1] += add;
-	printf("ADD %d Adventurer to Player 1 Deck\n",add);
-	G.hand[1][adventurer] = add; //Add 3 adventurerers to Player 1 hand
-	G.handCount[1] += add;
-	printf("ADD %d Adventurer to Player 1 Hand\n",add);
-	G.discard[1][adventurer] = add; //Add 3 adventurerers to Player 1 discard
-	G.discardCount[1] += add;
-	printf("Add %d Adventurer to Player 1 Discard\n",add);
-	printf("TOTAL ADDED = %d\n",add*3); 
+
+	for(i = deckCount; i < deckCount + add; i++){
+		G.deckCount[1]++;
+		G.deck[1][i] = adventurer;
+	}
+
+	for(i = handCount; i < handCount + add; i++){
+		G.handCount[1]++;
+		G.hand[1][i] = adventurer;		
+	}
+
+	for(i = discardCount; i < discardCount + add; i++){
+		G.discardCount[1]++;
+		G.discard[1][i] = adventurer;
+	}
+	
 
 	tester = fullDeckCount(1,adventurer,&G);
-	printf("fulldeckCount1,adventurer,&G) = %d\n", tester);
+	printf("fulldeckCount(1,adventurer,&G) = %d\n", tester);
 	if(tester != (add*3)) printf("TEST FAILED\n");
 	else printf("TEST SUCCESS\n");
 	

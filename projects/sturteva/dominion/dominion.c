@@ -651,7 +651,7 @@ void adventurerCard(int currentPlayer, struct gameState *state){
 	int cardDrawn;
 	int temphand[MAX_HAND];
 	int z = 0; //this is the counter for the temp hand
-	while(drawntreasure < 3){ //BUG HERE, Should be drawntreasure < 2
+	while(drawntreasure < 2){
 		//If deck is empty, we need to shuffle discard and add to deck
 		if (state->deckCount[currentPlayer] < 1){
 			shuffle(currentPlayer,state);
@@ -668,7 +668,7 @@ void adventurerCard(int currentPlayer, struct gameState *state){
 	}
 
 
-	while (z-1 >= 0){
+	while (z >= 0){
 		state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
 		z--;
 	}

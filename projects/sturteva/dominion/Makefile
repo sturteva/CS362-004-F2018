@@ -28,6 +28,9 @@ cardtest1: cardtest1.c dominion.o rngs.o
 cardtest2: cardtest2.c dominion.o rngs.o
 	gcc -o cardtest2.exe -g cardtest2.c dominion.o rngs.o $(CFLAGS)
 
+cardtest3: cardtest3.c dominion.o rngs.o
+	gcc -o cardtest3.exe -g cardtest3.c dominion.o rngs.o $(CFLAGS)
+
 testDrawCard: testDrawCard.c dominion.o rngs.o
 	gcc  -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 

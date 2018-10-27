@@ -24,6 +24,8 @@ int main(){
 	if(tester != 0) printf("initialization failed\n");
 	else printf("initialization success\n");
 
+	//Ensure that Outpost is in the hand
+	G.hand[0][0] = outpost
 	copyG = G;
 	tester = cardEffect(outpost,0,0,0,&copyG,0,&bonus);
 
@@ -48,6 +50,31 @@ int main(){
 	if(newPlayedCount != oldPlayedCount+1 && newHandCount != oldHandCount-1)
 		 printf("TEST FAILED\n");
 	else printf("TEST SUCCESS\n");
+
+	 int oldPlayed = 0;
+        int newPlayed = 0;
+        int i;
+
+        for(i = 0; i < G.playedCardCount; i++){
+
+                if (G.playedCards[i] == outpost)
+                        oldPlayed++;
+        }
+
+        for(i = 0; i < copyG.playedCardCount; i++){
+
+                if(copyG.playedCards[i] == outpost)
+                        newPlayed++;
+        }
+
+        printf("Old Played = %d\n",oldPlayed);
+        printf("New Played = %d\n",newPlayed);
+        if(newPlayed != oldPlayed+1)
+                printf("TEST FAILED\n");
+        else
+                printf("TEST SUCCESS\n");
+
+
 
 	if(copyG.handCount[1] != G.handCount[1])
 		printf("OTHER PLAYER STATE CHANGED\n");

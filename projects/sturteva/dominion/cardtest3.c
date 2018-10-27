@@ -24,6 +24,9 @@ int main(){
 	if(tester != 0) printf("intiliazation failed\n");
 	else printf("initialization success\n");
 
+	//ensure that the adventuerr card is in the hand
+	G.hand[0][0] = adventurer;
+
 	copyG = G;
 	tester = cardEffect(adventurer,0,0,0,&copyG,0,&bonus);
 
@@ -66,28 +69,30 @@ int main(){
 	if(oldDiscardCount == newDiscardCount) printf("TEST FAILED\n");
 	else printf("TEST SUCCESS\n");
 
-	//Count the adventurer discard #
-	int oldAdvDisCount = 0;
-	int newAdvDisCount = 0;
+	//Count the adventurer played #
+	int oldPlayed = 0;
+	int newPlayed = 0;
 
-	for(i = 0; i < G.discardCount[0]; i++){
-		if(G.discard[0][i] == adventurer) oldAdvDisCount++;
+	for(i =0; i < G.playedCardCount; i++){
+
+		if(G.playedCards[i] == adventurer)
+			oldPlayed++;
+
+	} 
+
+	for(i = 0; i< copyG.playedCardCount; i++){
+
+		if(copyG.playedCards[i] == adventurer)
+			newPlayed++;
 	}
 
-	for(i =0; i < copyG.discardCount[0]; i++){
-		if(copyG.discard[0][i] == adventurer) newAdvDisCount++;
-	}
+	printf("Old Played = %d\n",oldPlayed);
+	printf("New Played = %d\n",newPlayed);
 
-	int difference = newAdvDisCount - oldAdvDisCount;
-	printf("Old Adventurer Discard Count = %d\n",oldAdvDisCount);
-	printf("New Adventurer Discard Count = %d\n",newAdvDisCount);
-	if(difference < 1) printf("TEST FAILED\n");
-	else printf("TEST SUCCESS\n"); 
-
-	if(copyG.handCount[0] != G.handCount[0]+1) 
-		printf("HAND SIZE OFF, TEST FAILED\n");
+	if(newPlayed != oldPlayed+1)
+		printf("TEST FAILED\n");
 	else
-		printf("HAND SIZE ADJUSTED CORRECTLY, TEST SUCCESS\n");
+		printf("TEST SUCCESS\n");
 
 
 	if(copyG.handCount[1] != G.handCount[1])

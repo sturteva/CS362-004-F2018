@@ -25,10 +25,12 @@ int main(){
 
 	//ensure that the adventuerr card is in the hand
 	G.hand[0][0] = adventurer;
-
+	
 	/*Manually adjust the player deck to ensure that the 
-	 * first two cards drawn are NOT treasures*/
+	 *the first 2 cards drawn are not treasures. So that
+	 *There should be 2 discarded cards afterwards!*/ 
 	int j;
+		
 	for(j = 0; j < G.deckCount[0]-2; j++){
 		G.deck[0][j] = copper;
 	}
@@ -76,7 +78,7 @@ int main(){
 
 	printf("Old Discard Count = %d\n",oldDiscardCount);
 	printf("New Discard Count = %d\n",newDiscardCount);
-	if(oldDiscardCount == newDiscardCount) printf("TEST FAILED\n");
+	if(newDiscardCount != oldDiscardCount+2) printf("TEST FAILED\n");
 	else printf("TEST SUCCESS\n");
 
 	//Count the adventurer played #

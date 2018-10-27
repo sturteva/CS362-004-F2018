@@ -28,12 +28,10 @@ int main(){
 	//Ensure that the great_hall is in the hand
 	G.hand[0][0] = great_hall;
 
-	printf("%d\n",G.hand[0][0]);
-
 	copyG = G;	
-	printf("%d\n",copyG.hand[0][0]);
+
 	tester = cardEffect(great_hall,0,0,0,&copyG,0,&bonus);
-	printf("%d\n",copyG.hand[0][0]);
+
 	//Ensure that a Card was Drawn
 	printf("Old Hand Size = %d\n",G.handCount[0]);
 	printf("New Hand Size = %d\n",copyG.handCount[0]);

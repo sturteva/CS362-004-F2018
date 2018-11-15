@@ -12,8 +12,8 @@
 /*This is designed to test the Smith card*/
 int main(){
 
-	time_t t; 
-	int seed = (int) time(&t);
+ 
+	int seed = (int) time(NULL);
 	srand((unsigned) seed);
 	int n;
         int tester;
@@ -38,8 +38,13 @@ int main(){
 
 	//Randomly adjust the deckCount, discardCount & hardCount of player.
 	G.deckCount[currentPlayer] = rand() % MAX_DECK;
-	G.discardCount[currentPlayer] = rand() % MAX_DECK;
+//	G.discardCount[currentPlayer] = rand() % MAX_DECK;
 	G.handCount[currentPlayer] = rand() % MAX_HAND + 1; //Guarantees at least 1 card
+	//Fill Player's Deck
+	int deck = 0;
+	for(deck = 0; deck < G.deckDount[currentPlayer]; deck++){
+		G.deck[currentPlayer][deck] = rand() % 27;
+	}
 
 	//Fill Player's Hand
 	int hand = 0;

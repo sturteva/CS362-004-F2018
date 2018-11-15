@@ -40,14 +40,19 @@ int main(){
 
 
 	//Randomly adjust deckCount,discardCout & handCount of player
-	G.handCount[currentPlayer] = (rand() % MAX_HAND) + 1;
+	int count = (rand() % MAX_HAND) + 1;
 	G.deckCount[currentPlayer] = rand() % MAX_DECK - G.handCount[currentPlayer] + 1;
-	G.discardCount[currentPlayer] = rand() % (MAX_DECK - G.deckCount[currentPlayer]);
+//	G.discardCount[currentPlayer] = rand() % (MAX_DECK - G.deckCount[currentPlayer]);
 
+	//Fill Player's Deck
+	int deck;
+	for(deck = 0; deck < G.deckCount[currentPlayer]; deck++){
+		G.deck[currentPlayer][deck] = rand() % 27;
+	}
 
 	//Fill Player's Hand
 	int hand = 0;
-	for(hand = 0; hand < G.handCount[currentPlayer]; hand++){
+	for(hand = 0; hand < count; hand++){
 		drawCard(currentPlayer,&G);
 	}
 

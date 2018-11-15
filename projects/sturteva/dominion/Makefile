@@ -34,10 +34,15 @@ cardtest3: cardtest3.c dominion.o rngs.o
 cardtest4: cardtest4.c dominion.o rngs.o
 	gcc -o cardtest4.exe -g cardtest4.c dominion.o rngs.o $(CFLAGS)
 
-randTestAdven: randAdven.c dominion.o rngs.o
-	gcc -o randTestAdv.exe -g randAdven.c dominion.o rngs.o $(CFLAGS)
+randTestAdven: randomtestadventurer.c dominion.o rngs.o
+	gcc -o randTestAdv.exe -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
 	./randTestAdv.exe &> randomtestadventurer.out
-	gcov -f dominion.c >> randomtestadventurer.out 
+	gcov -f dominion.c >> randomtestadventurer.out
+
+randomtestcard1:  randomtestcard1.c dominion.o rngs.o
+	gcc -o randtestcard1.exe -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+	./randtestcard1.exe &> randomtestcard1.out
+	gcov -f dominion.c >> randomtestcard1.out
 
 unittestresults: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest3 cardtest4
 	./unittest1.exe &> unittestresult.out

@@ -85,20 +85,112 @@ public class UrlValidatorTest extends TestCase {
     }
 //</editor-fold>
 
-    public void testYourFirstPartition() {
-        UrlValidator urlVal = new UrlValidator(null, null, 1);
-
-        assertFalse(urlVal.isValid(null)); //No input
-
+    public void testSchemePartition() {
+    	System.out.println("Starting tests for Scheme partition");
+    	long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
+        boolean pass = true;
+        
+        pass &= urlVal.isValid("http://testscheme.com"); //good scheme
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): http://testscheme.com");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on http://testscheme.com");
+        }
+        
+        pass &= !urlVal.isValid("zttp://testscheme.com"); //bad scheme
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Fail): zttp://testscheme.com");
+        }
+        else {
+        	System.out.println("Error: Expected fail Obtained pass on zttp://testscheme.com");
+        }
+        assertTrue(pass); //check if both tests passed 
     }
 
 
-    public void testYourSecondPartition() {
-        //You can use this function to implement your Second Partition testing
+    public void testAuthorityPartition() {
+    	System.out.println("Starting tests for Authority partition");
+    	long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
+        boolean pass = true;
+        
+        pass &= urlVal.isValid("http://www.google.com"); //good authority
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): http://www.google.com");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on http://www.google.com");
+        }
+        
+        pass &= !urlVal.isValid("http://ww∑.google.com"); //bad authority, contains invalid character
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Fail): http://ww∑.google.com");
+        }
+        else {
+        	System.out.println("Error: Expected fail Obtained pass on http://ww∑.google.com");
+        }
+        assertTrue(pass); //check if both tests passed 
+    }
+    
+    public void testPathPartition() {
+    	System.out.println("Starting tests for Path partition");
+    	long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
+        boolean pass = true;
+        
+        pass &= urlVal.isValid("http://www.google.com/gmail"); //good Path
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): http://www.google.com/gmail");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on http://www.google.com/gmail");
+        }
+        
+        pass &= !urlVal.isValid("http://www.google.com/©mail"); //bad Path, contains invalid character
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Fail): http://www.google.com/©mail");
+        }
+        else {
+        	System.out.println("Error: Expected fail Obtained pass on http://www.google.com/©mail");
+        }
+        assertTrue(pass); //check if both tests passed 
 
     }
-    //You need to create more test cases for your Partitions if you need to
+    
+    public void testQueryPartition() {
+    	System.out.println("Starting tests for Query partition");
+    	long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
+        boolean pass = true;
+        
+        pass &= urlVal.isValid("https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=GS100042"); //good Query
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=GS100042");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=GS100042");
+        }
+        
+        pass &= !urlVal.isValid("https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=®GS100042"); //bad Query, contains invalid character
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Fail): https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=®GS100042");
+        }
+        else {
+        	System.out.println("Error: Expected fail Obtained pass on https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=®GS100042");
+        }
+        assertTrue(pass); //check if both tests passed 
 
+    }
     public void testIsValid() {
         //You can use this function for programming based testing
 

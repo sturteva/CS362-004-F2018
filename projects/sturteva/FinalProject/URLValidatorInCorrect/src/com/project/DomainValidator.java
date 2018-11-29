@@ -1,4 +1,4 @@
-/*
+package com.project;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -102,12 +102,12 @@ public class DomainValidator implements Serializable {
     private static final DomainValidator DOMAIN_VALIDATOR_WITH_LOCAL = new DomainValidator(true);
 
     /**
-     * RegexValidator for matching domains.
+     * com.project.RegexValidator for matching domains.
      */
     private final RegexValidator domainRegex =
             new RegexValidator(DOMAIN_NAME_REGEX);
     /**
-     * RegexValidator for matching a local hostname
+     * com.project.RegexValidator for matching a local hostname
      */
     // RFC1123 sec 2.1 allows hostnames to start with a digit
     private final RegexValidator hostnameRegex =
@@ -1897,7 +1897,7 @@ public class DomainValidator implements Serializable {
      * <p>
      * For example:
      * <p>
-     * {@code DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"apache"})}
+     * {@code com.project.DomainValidator.updateTLDOverride(ArrayType.GENERIC_PLUS, new String[]{"apache"})}
      * <p>
      * To clear an override array, provide an empty array.
      *
@@ -1994,7 +1994,7 @@ public class DomainValidator implements Serializable {
      * @param input the string to convert, not null
      * @return converted input, or original input if conversion fails
      */
-    // Needed by UrlValidator
+    // Needed by com.project.UrlValidator
     static String unicodeToASCII(String input) {
         if (isOnlyASCII(input)) { // skip possibly expensive processing
             return input;

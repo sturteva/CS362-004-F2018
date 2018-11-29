@@ -1,4 +1,4 @@
-/*
+package com.project;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -42,10 +42,10 @@ import java.util.regex.Pattern;
  * to the php original.</p>
  * <pre>
  *   Example of usage:
- *   Construct a UrlValidator with valid schemes of "http", and "https".
+ *   Construct a com.project.UrlValidator with valid schemes of "http", and "https".
  *
  *    String[] schemes = {"http","https"}.
- *    UrlValidator urlValidator = new UrlValidator(schemes);
+ *    com.project.UrlValidator urlValidator = new com.project.UrlValidator(schemes);
  *    if (urlValidator.isValid("ftp://foo.bar.com/")) {
  *       System.out.println("url is valid");
  *    } else {
@@ -55,7 +55,7 @@ import java.util.regex.Pattern;
  *    prints "url is invalid"
  *   If instead the default constructor is used.
  *
- *    UrlValidator urlValidator = new UrlValidator();
+ *    com.project.UrlValidator urlValidator = new com.project.UrlValidator();
  *    if (urlValidator.isValid("ftp://foo.bar.com/")) {
  *       System.out.println("url is valid");
  *    } else {
@@ -207,7 +207,7 @@ public class UrlValidator implements Serializable {
     }
 
     /**
-     * Create a UrlValidator with default properties.
+     * Create a com.project.UrlValidator with default properties.
      */
     public UrlValidator() {
         this(null);
@@ -226,7 +226,7 @@ public class UrlValidator implements Serializable {
     }
 
     /**
-     * Initialize a UrlValidator with the given validation options.
+     * Initialize a com.project.UrlValidator with the given validation options.
      * @param options The options should be set using the public constants declared in
      * this class.  To set multiple options you simply add them together.  For example,
      * ALLOW_2_SLASHES + NO_FRAGMENTS enables both of those options.
@@ -247,7 +247,7 @@ public class UrlValidator implements Serializable {
     }
 
     /**
-     * Initialize a UrlValidator with the given validation options.
+     * Initialize a com.project.UrlValidator with the given validation options.
      * @param authorityValidator Regular expression validator used to validate the authority part
      * This allows the user to override the standard set of domains.
      * @param options Validation options. Set using the public constants of this class.
@@ -373,10 +373,10 @@ public class UrlValidator implements Serializable {
     /**
      * Returns true if the authority is properly formatted.  An authority is the combination
      * of hostname and port.  A <code>null</code> authority value is considered invalid.
-     * Note: this implementation validates the domain unless a RegexValidator was provided.
-     * If a RegexValidator was supplied and it matches, then the authority is regarded
+     * Note: this implementation validates the domain unless a com.project.RegexValidator was provided.
+     * If a com.project.RegexValidator was supplied and it matches, then the authority is regarded
      * as valid with no further checks, otherwise the method checks against the
-     * AUTHORITY_PATTERN and the DomainValidator (ALLOW_LOCAL_URLS)
+     * AUTHORITY_PATTERN and the com.project.DomainValidator (ALLOW_LOCAL_URLS)
      * @param authority Authority value to validate, alllows IDN
      * @return true if authority (hostname and port) is valid.
      */

@@ -1,5 +1,7 @@
+package com.project;
 
 
+import com.project.UrlValidator;
 import junit.framework.TestCase;
 
 //You can use this as a skeleton for your 3 different test approach

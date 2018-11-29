@@ -1,4 +1,4 @@
-/*
+package com.project;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -57,7 +57,7 @@ public class InetAddressValidator implements Serializable {
      */
     private static final InetAddressValidator VALIDATOR = new InetAddressValidator();
 
-    /** IPv4 RegexValidator */
+    /** IPv4 com.project.RegexValidator */
     private final RegexValidator ipv4Validator = new RegexValidator(IPV4_REGEX);
 
     /**

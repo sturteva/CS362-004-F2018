@@ -1,4 +1,4 @@
-/*
+package com.project;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
  * <pre>
  * <code>
  * String[] regexs = new String[] {...};
- * RegexValidator validator = new RegexValidator(regexs, false);
+ * com.project.RegexValidator validator = new com.project.RegexValidator(regexs, false);
  * </code>
  * </pre>
  *
@@ -215,7 +215,7 @@ public class RegexValidator implements Serializable {
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
-        buffer.append("RegexValidator{");
+        buffer.append("com.project.RegexValidator{");
         for (int i = 0; i < patterns.length; i++) {
             if (i > 0) {
                 buffer.append(",");

@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 //It is an optional to use this file, you can generate your own test file(s) to test the target function!
 // Again, it is up to you to use this file or not!
 
-
+//Testing my commit
 
 
 
@@ -16,7 +16,6 @@ public class UrlValidatorTest extends TestCase {
    public UrlValidatorTest(String testName) {
       super(testName);
    }
-
    
    
    public void testManualTestNull()

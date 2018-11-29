@@ -161,14 +161,26 @@ public class UrlValidatorTest extends TestCase {
     //TODO: Andrew
     private ResultPair randomPath()
     {
+
+
         String s1 = "make something random";
         boolean b = true; // true or false based on whether s1 is valid
-        ResultPair rp = new ResultPair(s1, b);
-        if (useTestData) {
-            rp.item = "/find/something/very/interesting";
-            rp.valid = true;
-        }
-        return rp;
+        ResultPair[] arr = {
+        new ResultPair("/../", false),
+        new ResultPair("/..", false),
+        new ResultPair("//", false),
+        new ResultPair("/random1", true),
+        new ResultPair("/foo/bar", true),
+        new ResultPair("foo/bar/foo", true),
+        new ResultPair("", true),
+        new ResultPair("/foo//bar",false),
+        new ResultPair("/foo/",true)};
+
+      //  if (useTestData) {
+        //    rp.item = "/find/something/very/interesting";
+          //  rp.valid = true;
+       // }
+        return arr[(int)(Math.random() * 9)];
     }
 
     //TODO: Dan
@@ -377,6 +389,8 @@ public class UrlValidatorTest extends TestCase {
         {
             ResultPair R = randomQuery();
             L(""+R.valid + ": " + R.item);
+            ResultPair path = randomPath();
+            L(""+path.valid + ": " + path.item);
         }
     }
     //</editor-fold>

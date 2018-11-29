@@ -1,7 +1,5 @@
-package com.project;
-
-
-import com.project.UrlValidator;
+package com.project;//import com.project.UrlValidator;
+//import com.project.UrlValidator;
 import junit.framework.TestCase;
 
 //You can use this as a skeleton for your 3 different test approach
@@ -9,7 +7,11 @@ import junit.framework.TestCase;
 // Again, it is up to you to use this file or not!
 
 //Testing my commit
-
+///  Comment:  class not found error  'Class not found: "com.project.UrlValidatorTest"'
+//  When the project definition does not have an output folder defined I consistently
+//  ran into this error.  Got to "Project Structure ctrl-alt-shift-s
+//  Project Settings->modules  set "Use Module Compile Output Path"
+//  and set the project output to an actual location on your system.
 
 
 public class UrlValidatorTest extends TestCase {

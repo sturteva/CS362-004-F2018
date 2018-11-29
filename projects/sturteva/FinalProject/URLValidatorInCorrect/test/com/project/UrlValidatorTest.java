@@ -304,18 +304,70 @@ public class UrlValidatorTest extends TestCase {
         return rp;
     }
     
-    //TODO: Reed
     private ResultPair randomHost()
     {
-        String s1 = "make something random";
-        boolean b = true; // true or false based on whether s1 is valid
-        ResultPair rp = new ResultPair(s1, b);
+    	String host;
+
+    	Boolean valid = true;
+    	
+    	
+     	//Make a random number between 0 and 100
+     	int random = (int)(Math.random() * 100);
+     	//if we get 0, set host to null, else create a random one
+     	if(random == 0) {
+     		host = null;
+     		valid = false;
+     	}
+     	else {
+     		//create host between 0 and 5 characters long containing any character between SPACE and ?, including non alphanumeric characters
+     		//string of some invalid characters to choose from
+     		String invalidChars = "`'^å*();";
+     		//string of some valid characters to choose from
+     		String validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.";
+     		//set random length of host
+     		int randomLength = (int)(Math.random() * 100);
+     	    int targetStringLength = randomLength;
+     	    int randomChar;
+     	    StringBuilder buffer = new StringBuilder(targetStringLength);
+     	    boolean includePeriod = false;
+     	    for (int i = 0; i < targetStringLength; i++) {
+     	    	//set a 1 in 1000 chance of invalid character
+     	    	int randomValid = (int)(Math.random() * 1000);
+     	    	if (randomValid == 0) {
+     	    		int character = (int)(Math.random()*invalidChars.length());
+     	    		randomChar = invalidChars.charAt(character);
+     	    		valid = false;
+     	    	}
+     	    	else {
+     	    		int character = (int)(Math.random()*validChars.length());
+     	    		randomChar = validChars.charAt(character);
+     	    		//if first or last character of host is a '.' then it is invalid
+     	    		if ((i == targetStringLength - 1 || i == 0) && randomChar == '.') {
+     	    			valid = false;
+     	    		}
+     	    		//if we have a '.' that is not the first or last character, it is a valid domain
+     	    		else if(randomChar == '.') {
+     	    			includePeriod = true;
+     	    		}
+     	    	}
+     	        buffer.append((char) randomChar);
+     	    }
+     	    //if we don't have any period in the host name, it is invalid
+     	    if (!includePeriod) {
+     	    	valid = false;
+     	    }
+     	   host = buffer.toString();
+     	    
+     	}
+     	//set result pair
+        ResultPair rp = new ResultPair(host, valid);
         if (useTestData) {
-            rp.item = "www.google.com:8081";
+            rp.item = "://";
             rp.valid = true;
         }
         return rp;
     }
+    
     //TODO: Andrew
     private ResultPair randomPath()
     {

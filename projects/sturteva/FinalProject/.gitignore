@@ -1,1 +1,4 @@
+# IntelliJ project file directory
 **/.idea
+# the IntelliJ module definition file - it puts this in each module directory
+*.iml

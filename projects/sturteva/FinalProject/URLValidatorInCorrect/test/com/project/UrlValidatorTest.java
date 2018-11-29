@@ -120,20 +120,52 @@ public class UrlValidatorTest extends TestCase {
 
     private boolean useTestData = true;
 
-    //TODO: Reed
     private ResultPair randomSchema() {
         // see for example schemes https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html
-
-        String s1 = "make something random";
-        boolean b = true; // true or false based on whether s1 is valid
-        ResultPair rp = new ResultPair(s1, b);
+    	String scheme;
+    	Boolean valid;
+    	//array of default accepted schemes
+     	String[] validAuths = new String[] {
+                 "http", "https", "ftp"
+         };
+     	//Make a random number between 0 and 6
+     	int random = (int)(Math.random() * 6);
+     	//if we get 0, 1, or 2, select corresponding valid scheme, else create a random one
+     	if(random <= 2) {
+     		scheme = validAuths[random];
+     		valid = true;
+     	}
+     	else {
+     		//create random scheme between 1 and 7 characters long containing any character between A and z, including non alphanumeric characters
+     		int randomLength = (int)(Math.random() * 7 + 1);
+     		int leftLimit = 65; // letter 'A'
+     	    int rightLimit = 122; // letter 'z'
+     	    int targetStringLength = randomLength;
+     	    
+     	    StringBuilder buffer = new StringBuilder(targetStringLength);
+     	    for (int i = 0; i < targetStringLength; i++) {
+     	    	int randomChar = (int)(Math.random() * (rightLimit-leftLimit) + leftLimit); 
+     	        buffer.append((char) randomChar);
+     	    }
+     	   scheme = buffer.toString();
+     	   //check if random scheme is actually valid
+     	    if (scheme != "http" && scheme != "https" && scheme != "ftp"){
+     	        valid = false;
+     	    }
+     	    else {
+     	        valid = true;
+     	    }
+     	    
+     	}
+     	//set result pair
+        ResultPair rp = new ResultPair(scheme, valid);
         if (useTestData) {
             rp.item = "http";
             rp.valid = true;
         }
         return rp;
     }
-
+    
     //TODO: Reed
     private ResultPair randomConnector()
     {

@@ -31,7 +31,7 @@ public class UrlValidatorTest extends TestCase {
         super(testName);
     }
     // Just a generic Log function
-    public void L(String message) {System.out.println(message);}
+    private void L(String message) {System.out.println(message);}
 
 //<editor-fold desc="Manual Testing Functions">
 
@@ -172,24 +172,138 @@ public class UrlValidatorTest extends TestCase {
     }
 
     //TODO: Dan
+    //  Random Query
+    //    1) Forget the ?
+    //    2)  Generate 10 character [a-Z0-9]  strings as parameters and values starting with [a-Z]
+    //    3)  Randomly Generate =,& insertions
+    //      probablities 75% accurate expectation ?<param>=<value>&<param2>=<value2>...
+    //      25% failures will test between 1-5 param/value pairs and randomly insert ?,=,&
+    //      a quick string check will determine if the querry part is correct.
     private ResultPair randomQuery()
     {
-        String s1 = "make something random";
-        boolean b = true; // true or false based on whether s1 is valid
-        ResultPair rp = new ResultPair(s1, b);
-        if (useTestData) {
-            rp.item = "?param1=something&param2=very&param3=interesting";
-            rp.valid = true;
+        StringBuilder s1;// = new StringBuilder();
+        ResultPair rValue = new ResultPair("testItem", true);
+        String[] arr = new String[] {
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+                "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
+                "x", "y", "z"
+        };
+        String[] ops = new String[]{ "?", "=", "&" };
+
+        boolean makeGoodString = (Math.random()*100 > 25);
+
+        if (makeGoodString) {
+            s1 = new StringBuilder("?");
+
+            int numPairs = (int)(Math.random()*6)+1;
+
+            for (int j=0; j< numPairs; j++) {
+                int ranChar = (int)(Math.random()*(arr.length - 10) + 10);
+                s1.append(arr[ranChar]);
+                for (int i = 0; i < 9; i++) {
+                    s1.append(arr[(int) (Math.random() * arr.length)]);
+                }
+                s1.append("=");
+                ranChar =(int) (Math.random()*(arr.length - 10) + 10);
+                s1.append(arr[ranChar]);
+                for (int i = 0; i < 9; i++) {
+                    s1.append(arr[(int) (Math.random() * arr.length)]);
+                }
+                if (j != (numPairs -1))
+                {
+                    s1.append("&");
+                }
+            }
+            rValue.item = s1.toString();
+            rValue.valid = true;
+            return rValue;
         }
-        return rp;
+        else { // make a possible faulty string
+            s1 = new StringBuilder();
+            s1.append(ops[(int) (Math.random() * 3)]); // random ?,=,&
+            int numPairs = (int)(Math.random()*6+1);
+
+            for (int j=0; j< numPairs; j++) {
+
+                int ranChar =(int) (Math.random()*(arr.length - 10) + 10);
+                s1.append(arr[ranChar]);
+                for (int i = 0; i < 9; i++) {
+                    s1.append(arr[(int) (Math.random() * arr.length)]);
+                }
+                s1.append(ops[(int) (Math.random() * 3)]); // random ?,=,&
+                ranChar = (int)( Math.random()*(arr.length - 10) + 10);
+                s1.append(arr[ranChar]);
+                for (int i = 0; i < 9; i++) {
+                    s1.append(arr[(int) (Math.random() * arr.length)]);
+                }
+
+                if (j != (numPairs -1))
+                {
+                    s1.append("&");
+                }
+            }
+            rValue.item = s1.toString();
+            rValue.valid = true;
+
+            rValue.valid = s1.charAt(0) == '?';
+
+
+
+            int index = 0; // 0 means = is expected next other wise 1 is expected next
+            for (int i=0; i < rValue.item.length() && rValue.valid; i++) {
+                if(rValue.item.charAt(i) == '=' && index != 1 )
+                    rValue.valid = false;
+                else if (rValue.item.charAt(i) == '=' )
+                    index = 1;
+                else if (rValue.item.charAt(i) == '&' && index != 0 )
+                    rValue.valid = false;
+                else if (rValue.item.charAt(i) == '&' )
+                    index = 0;
+            }
+            return rValue;
+        }
+        //boolean b = true; // true or false based on whether s1 is valid
+
+      //  (Math.random() * ((max - min) + 1)) + min;
+
+//        ResultPair rp = new ResultPair(s1, b);
+//
+//        if (useTestData) {
+//            rp.item = "?param1=something&param2=very&param3=interesting";
+//            rp.valid = true;
+//        }
     }
 
+    //https://junit.org/junit4/javadoc/4.12/org/junit/rules/ErrorCollector.html
+    // video: https://youtu.be/OP25PTavvyQ
+    // https://airbrake.io/blog/java-exception-handling/assertionerror-java
+    //public ErrorCollector ourErrors = new ErrorCollector();
 
     public void testRandomURLs(){
         int numTests = 10; //100000;
         boolean overallResults = true; // pass
+        int exceptionCount =0;
         java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
+        java.util.ArrayList<String> urlList = new java.util.ArrayList<>(50);
+
+        if (useTestData)
+        {
+            urlList.add("http://www.facebook.com");
+            urlList.add("http://");
+            urlList.add("http://www.facebook.com:8081");
+            urlList.add("http://www.facebook.com:8081/somepath");
+            urlList.add("http://www.facebook.com/somepath");
+            urlList.add("http://www.facebook.com/somepath/morepath");
+            urlList.add("http://www.facebook.com?params2=values");
+            urlList.add("http://www.facebook.com/path1/path2?qparam1=34&qparam2=678");
+
+            numTests = urlList.size();
+
+        }
+
         L("Starting Random Tests");
+        //UrlValidator urlVal = new UrlValidator();
+        UrlValidator urlVal = new UrlValidator(null, null, 1);
         for (int i=0; i< numTests; i++)
         {
             ResultPair schema = randomSchema();
@@ -199,36 +313,72 @@ public class UrlValidatorTest extends TestCase {
             ResultPair query = randomQuery();
             String testURL = schema.item + connector.item + host.item + path.item + query.item;
             boolean expectedValue = schema.valid && connector.valid && host.valid && query.valid;
-            L("Testing URL: " + testURL);
 
-
-            UrlValidator urlVal = new UrlValidator();
-            try { // I don't think this works becuase the 'Exception' that is thrown is processed by the junit assert
-                if (expectedValue)
-                    assertTrue(true);
-                    //assertTrue(urlVal.isValid(testURL));
-                else
-                    assertFalse(urlVal.isValid(testURL));
-            } catch (Exception genericExc)
+            if (useTestData)
             {
-                errorList.add(genericExc.getLocalizedMessage()); // may want to use getMessage
-                String message = (errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
+                testURL = urlList.get(i);
+                expectedValue = true;
+            }
+            //L("Testing URL: " + testURL);
+
+
+            boolean assertionFailed;// = false;
+            try { // I don't think this works because the 'Exception' that is thrown is processed by the junit assert
+                boolean thisIsBSthatJUnitCannotProperlyTrapATestedValue = urlVal.isValid(testURL);
+                assertionFailed = !(expectedValue == thisIsBSthatJUnitCannotProperlyTrapATestedValue);
+
+                if (assertionFailed) // assertionFailed but didn't throw an error
+                {
+                    overallResults = false;
+
+                    String message = ("Error No: " + errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
+                            " but received " + (!expectedValue ?  "true" : "false") + " for url '"
+                            + testURL + "'";
+                    errorList.add(message);
+                    L(message);
+                }
+                else
+                    L((expectedValue?"Valid Expected and Valid Obtained: ": "Failed Expected and Failed Obtained: ") + testURL);
+
+            } catch (Exception genericExc) // URL failed and threw an error
+            {
+                String message = ("Error No: " + errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
                         " but received " + (!expectedValue ?  "true" : "false") + " for url '"
-                        + testURL + "'";
-                System.out.println(message);
+                        + testURL + "'" + "\nException Thrown: " + genericExc.toString();
+                errorList.add(message);
+                L(message);
                 overallResults = false;
-            }// end try/catch
+                exceptionCount++;
+            }
 
         }// end for
-        System.out.println("Error List to follow");
-        for (int i=0; i< errorList.size(); i++)
-        {
-            String message = "" + (i+1) + ": " + errorList.get(i);
-            System.out.println(message);
-        }
+        L(numTests + " random tests were run and " + errorList.size() + " failed and there were " + exceptionCount + " that resulted in " +
+                "UrlValidator runtime exceptions.");
+
         assertTrue(overallResults); // will fail test if even 1 run is false
     }//testRandomURLs
 
+    // empty function to run test java snipits in when checking on java code structure.
+    public void testJavaKnowlege()
+    {
+//
+//        java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
+//        errorList.add("Message 1");
+//        errorList.add("Message 2");
+//        errorList.add("Message 3");
+//        for (int i=0; i< errorList.size(); i++)
+//        {
+//            String message = "" + (i+1) + ": " + errorList.get(i);
+//            L(message);
+//        }
+//
+
+        for (int i=0; i < 100; i++)
+        {
+            ResultPair R = randomQuery();
+            L(""+R.valid + ": " + R.item);
+        }
+    }
     //</editor-fold>
 
 

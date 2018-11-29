@@ -258,18 +258,52 @@ public class UrlValidatorTest extends TestCase {
         return rp;
     }
     
-    //TODO: Reed
     private ResultPair randomConnector()
     {
-        String s1 = "make something random";
-        boolean b = true; // true or false based on whether s1 is valid
-        ResultPair rp = new ResultPair(s1, b);
+    	String connector;
+    	Boolean valid;
+    	//array of default accepted schemes
+     	String[] validAuths = new String[] {
+                 "http", "https", "ftp"
+         };
+     	//Make a random number between 0 and 3
+     	int random = (int)(Math.random() * 3);
+     	//if we get 0 set connector to valid, else create a random one
+     	if(random == 0) {
+     		connector = "://";
+     		valid = true;
+     	}
+     	else {
+     		//create random connector between 0 and 5 characters long containing any character between SPACE and ?, including non alphanumeric characters
+     		int randomLength = (int)(Math.random() * 5);
+     		int leftLimit = 32; // character SPACE
+     	    int rightLimit = 63; // character '?'
+     	    int targetStringLength = randomLength;
+     	    
+     	    StringBuilder buffer = new StringBuilder(targetStringLength);
+     	    for (int i = 0; i < targetStringLength; i++) {
+     	    	int randomChar = (int)(Math.random() * (rightLimit-leftLimit) + leftLimit); 
+     	        buffer.append((char) randomChar);
+     	    }
+     	   connector = buffer.toString();
+     	   //check if random connector is actually valid
+     	    if (connector != "://"){
+     	        valid = false;
+     	    }
+     	    else {
+     	        valid = true;
+     	    }
+     	    
+     	}
+     	//set result pair
+        ResultPair rp = new ResultPair(connector, valid);
         if (useTestData) {
             rp.item = "://";
             rp.valid = true;
         }
         return rp;
     }
+    
     //TODO: Reed
     private ResultPair randomHost()
     {

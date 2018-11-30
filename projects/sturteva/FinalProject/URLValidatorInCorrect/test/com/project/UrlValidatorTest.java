@@ -156,6 +156,10 @@ public class UrlValidatorTest extends TestCase {
         	System.out.println("Error: Expected pass Obtained fail on http://www.google.com");
         }
         
+        pass &= urlVal.isValid("http://123.123.423.112"); //good authority
+        pass &= urlVal.isValid("FEDC:BA98:7654:3210:FEDC:BA98:7654:3210"); //good authority
+        pass &= urlVal.isValid("https://abcd:abcd:abcd:abcd:abcd:80"); //good authority
+        
         pass &= !urlVal.isValid("http://ww∑.google.com"); //bad authority, contains invalid character
         //check if isValid behaved correctly and print to console
         if (pass) {

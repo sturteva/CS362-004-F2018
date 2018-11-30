@@ -90,9 +90,7 @@ public class UrlValidatorTest extends TestCase {
     	System.out.println("Starting tests for Scheme partition");
     	long allowAllScheme = 1;
         UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
-        boolean pass = true;
-        
-        pass &= urlVal.isValid("http://testscheme.com"); //good scheme
+        boolean pass =  urlVal.isValid("http://testscheme.com"); //good scheme
         //check if isValid behaved correctly and print to console
         if (pass) {
         	System.out.println("Valid Expected and Valid Obtained (Pass): http://testscheme.com");
@@ -117,9 +115,8 @@ public class UrlValidatorTest extends TestCase {
     	System.out.println("Starting tests for Authority partition");
     	long allowAllScheme = 1;
         UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
-        boolean pass = true;
+        boolean pass = urlVal.isValid("http://www.google.com"); //good authority
         
-        pass &= urlVal.isValid("http://www.google.com"); //good authority
         //check if isValid behaved correctly and print to console
         if (pass) {
         	System.out.println("Valid Expected and Valid Obtained (Pass): http://www.google.com");
@@ -143,9 +140,7 @@ public class UrlValidatorTest extends TestCase {
     	System.out.println("Starting tests for Path partition");
     	long allowAllScheme = 1;
         UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
-        boolean pass = true;
-        
-        pass &= urlVal.isValid("http://www.google.com/gmail"); //good Path
+        boolean pass = urlVal.isValid("http://www.google.com/gmail"); //good Path  // FYI intelliJ caught the conversion of pass&= to just pass=
         //check if isValid behaved correctly and print to console
         if (pass) {
         	System.out.println("Valid Expected and Valid Obtained (Pass): http://www.google.com/gmail");
@@ -170,9 +165,7 @@ public class UrlValidatorTest extends TestCase {
     	System.out.println("Starting tests for Query partition");
     	long allowAllScheme = 1;
         UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
-        boolean pass = true;
-        
-        pass &= urlVal.isValid("https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=GS100042"); //good Query
+        boolean pass =  urlVal.isValid("https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=GS100042"); //good Query
         //check if isValid behaved correctly and print to console
         if (pass) {
         	System.out.println("Valid Expected and Valid Obtained (Pass): https://store.google.com/?utm_source=hp_header&utm_medium=google_oo&utm_campaign=GS100042");
@@ -217,7 +210,7 @@ public class UrlValidatorTest extends TestCase {
     private ResultSet randomSchema() {
         // see for example schemes https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html
     	String scheme;
-    	Boolean valid;
+        boolean valid;
     	//array of default accepted schemes
      	String[] validAuths = new String[] {
                  "http", "https", "ftp"
@@ -234,22 +227,17 @@ public class UrlValidatorTest extends TestCase {
      		int randomLength = (int)(Math.random() * 7 + 1);
      		int leftLimit = 65; // letter 'A'
      	    int rightLimit = 122; // letter 'z'
-     	    int targetStringLength = randomLength;
-     	    
-     	    StringBuilder buffer = new StringBuilder(targetStringLength);
-     	    for (int i = 0; i < targetStringLength; i++) {
+     	   // int targetStringLength = randomLength; // redundant removed
+
+     	    StringBuilder buffer = new StringBuilder(randomLength);
+     	    for (int i = 0; i < randomLength; i++) {
      	    	int randomChar = (int)(Math.random() * (rightLimit-leftLimit) + leftLimit); 
      	        buffer.append((char) randomChar);
      	    }
      	   scheme = buffer.toString();
      	   //check if random scheme is actually valid
-     	    if (scheme == "http" || scheme == "https" || scheme == "ftp"){
-     	        valid = true;
-     	    }
-     	    else {
-     	        valid = false;
-     	    }
-     	    
+            valid = (scheme.equals("http")) || (scheme.equals("https")) || (scheme.equals("ftp"));
+
      	}
      	//set result pair
         ResultSet rp = new ResultSet(scheme, valid);
@@ -260,10 +248,10 @@ public class UrlValidatorTest extends TestCase {
         return rp;
     }
     
-    private ResultPair randomConnector()
+    private ResultSet randomConnector()
     {
     	String connector;
-    	Boolean valid;
+    	boolean valid;
     	//array of default accepted schemes
      	String[] validAuths = new String[] {
                  "http", "https", "ftp"
@@ -280,25 +268,18 @@ public class UrlValidatorTest extends TestCase {
      		int randomLength = (int)(Math.random() * 5);
      		int leftLimit = 32; // character SPACE
      	    int rightLimit = 63; // character '?'
-     	    int targetStringLength = randomLength;
-     	    
-     	    StringBuilder buffer = new StringBuilder(targetStringLength);
-     	    for (int i = 0; i < targetStringLength; i++) {
+
+            StringBuilder buffer = new StringBuilder(randomLength);
+     	    for (int i = 0; i < randomLength; i++) {
      	    	int randomChar = (int)(Math.random() * (rightLimit-leftLimit) + leftLimit); 
      	        buffer.append((char) randomChar);
      	    }
      	   connector = buffer.toString();
      	   //check if random connector is actually valid
-     	    if (connector != "://"){
-     	        valid = false;
-     	    }
-     	    else {
-     	        valid = true;
-     	    }
-     	    
+            valid = "://".equals(connector);
      	}
      	//set result pair
-        ResultPair rp = new ResultPair(connector, valid);
+        ResultSet rp = new ResultSet(connector, valid);
         if (useTestData) {
             rp.item = "://";
             rp.valid = true;
@@ -307,11 +288,11 @@ public class UrlValidatorTest extends TestCase {
     }
     
     //TODO: Reed
-    private ResultPair randomHost()
+    private ResultSet randomHost()
     {
         String s1 = "make something random";
         boolean b = true; // true or false based on whether s1 is valid
-        ResultPair rp = new ResultPair(s1, b);
+        ResultSet rp = new ResultSet(s1, b);
         if (useTestData) {
             rp.item = "www.google.com:8081";
             rp.valid = true;
@@ -319,22 +300,22 @@ public class UrlValidatorTest extends TestCase {
         return rp;
     }
     //Done: Andrew
-    private ResultPair randomPath()
+    private ResultSet randomPath()
     {
 
 
         String s1 = "make something random";
         boolean b = true; // true or false based on whether s1 is valid
-        ResultPair[] arr = {
-        new ResultPair("/../", false),
-        new ResultPair("/..", false),
-        new ResultPair("//", false),
-        new ResultPair("/random1", true),
-        new ResultPair("/foo/bar", true),
-        new ResultPair("foo/bar/foo", true),
-        new ResultPair("", true),
-        new ResultPair("/foo//bar",false),
-        new ResultPair("/foo/",true)};
+        ResultSet[] arr = {
+        new ResultSet("/../", false),
+        new ResultSet("/..", false),
+        new ResultSet("//", false),
+        new ResultSet("/random1", true),
+        new ResultSet("/foo/bar", true),
+        new ResultSet("foo/bar/foo", true),
+        new ResultSet("", true),
+        new ResultSet("/foo//bar",false),
+        new ResultSet("/foo/",true)};
 
       //  if (useTestData) {
         //    rp.item = "/find/something/very/interesting";
@@ -351,10 +332,10 @@ public class UrlValidatorTest extends TestCase {
     //      probablities 75% accurate expectation ?<param>=<value>&<param2>=<value2>...
     //      25% failures will test between 1-5 param/value pairs and randomly insert ?,=,&
     //      a quick string check will determine if the querry part is correct.
-    private ResultPair randomQuery()
+    private ResultSet randomQuery()
     {
         StringBuilder s1;// = new StringBuilder();
-        ResultPair rValue = new ResultPair("testItem", true);
+        ResultSet rValue = new ResultSet("testItem", true);
         String[] arr = new String[] {
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
                 "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
@@ -438,7 +419,7 @@ public class UrlValidatorTest extends TestCase {
 
       //  (Math.random() * ((max - min) + 1)) + min;
 
-//        ResultPair rp = new ResultPair(s1, b);
+//        ResultSet rp = new ResultSet(s1, b);
 //
 //        if (useTestData) {
 //            rp.item = "?param1=something&param2=very&param3=interesting";
@@ -479,10 +460,10 @@ public class UrlValidatorTest extends TestCase {
         for (int i=0; i< numTests; i++)
         {
             ResultSet schema = randomSchema();
-            ResultPair connector = randomConnector();
-            ResultPair host = randomHost();
-            ResultPair path = randomPath();
-            ResultPair query = randomQuery();
+            ResultSet connector = randomConnector();
+            ResultSet host = randomHost();
+            ResultSet path = randomPath();
+            ResultSet query = randomQuery();
             String testURL = schema.item + connector.item + host.item + path.item + query.item;
             boolean expectedValue = schema.valid && connector.valid && host.valid && query.valid;
 
@@ -549,10 +530,10 @@ public class UrlValidatorTest extends TestCase {
 
         for (int i=0; i < 100; i++)
         {
-            ResultSet R = randomSchema();
-            L(""+R.valid + ": " + R.item);
-            //ResultPair path = randomPath();
-            //L(""+path.valid + ": " + path.item);
+            //ResultSet R = randomSchema();
+            //L(""+R.valid + ": " + R.item);
+            ResultSet path = randomPath();
+            L(""+path.valid + ": " + path.item);
         }
     }
 

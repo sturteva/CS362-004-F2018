@@ -85,6 +85,7 @@ public class UrlValidatorTest extends TestCase {
     }
 //</editor-fold>
 
+    //<editor-fold desc="Partition Testing Functions" >
     public void testSchemePartition() {
     	System.out.println("Starting tests for Scheme partition");
     	long allowAllScheme = 1;
@@ -191,6 +192,7 @@ public class UrlValidatorTest extends TestCase {
         assertTrue(pass); //check if both tests passed 
 
     }
+    //</editor-fold>
     public void testIsValid() {
         //You can use this function for programming based testing
 
@@ -212,7 +214,7 @@ public class UrlValidatorTest extends TestCase {
 
     private boolean useTestData = true;
 
-    private ResultPair randomSchema() {
+    private ResultSet randomSchema() {
         // see for example schemes https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html
     	String scheme;
     	Boolean valid;
@@ -241,20 +243,20 @@ public class UrlValidatorTest extends TestCase {
      	    }
      	   scheme = buffer.toString();
      	   //check if random scheme is actually valid
-     	    if (scheme != "http" && scheme != "https" && scheme != "ftp"){
-     	        valid = false;
+     	    if (scheme == "http" || scheme == "https" || scheme == "ftp"){
+     	        valid = true;
      	    }
      	    else {
-     	        valid = true;
+     	        valid = false;
      	    }
      	    
      	}
      	//set result pair
-        ResultPair rp = new ResultPair(scheme, valid);
-        if (useTestData) {
-            rp.item = "http";
-            rp.valid = true;
-        }
+        ResultSet rp = new ResultSet(scheme, valid);
+//        if (useTestData) {
+//            rp.item = "http";
+//            rp.valid = true;
+//        }
         return rp;
     }
     
@@ -316,7 +318,7 @@ public class UrlValidatorTest extends TestCase {
         }
         return rp;
     }
-    //TODO: Andrew
+    //Done: Andrew
     private ResultPair randomPath()
     {
 
@@ -341,7 +343,7 @@ public class UrlValidatorTest extends TestCase {
         return arr[(int)(Math.random() * 9)];
     }
 
-    //TODO: Dan
+    //Done: Dan
     //  Random Query
     //    1) Forget the ?
     //    2)  Generate 10 character [a-Z0-9]  strings as parameters and values starting with [a-Z]
@@ -476,7 +478,7 @@ public class UrlValidatorTest extends TestCase {
         UrlValidator urlVal = new UrlValidator(null, null, 1);
         for (int i=0; i< numTests; i++)
         {
-            ResultPair schema = randomSchema();
+            ResultSet schema = randomSchema();
             ResultPair connector = randomConnector();
             ResultPair host = randomHost();
             ResultPair path = randomPath();
@@ -527,7 +529,9 @@ public class UrlValidatorTest extends TestCase {
 
         assertTrue(overallResults); // will fail test if even 1 run is false
     }//testRandomURLs
+    //</editor-fold>
 
+    //<editor-fold desc = "Utility Functions used to test the 'test' functions">
     // empty function to run test java snipits in when checking on java code structure.
     public void testJavaKnowlege()
     {
@@ -545,13 +549,13 @@ public class UrlValidatorTest extends TestCase {
 
         for (int i=0; i < 100; i++)
         {
-            ResultPair R = randomQuery();
+            ResultSet R = randomSchema();
             L(""+R.valid + ": " + R.item);
-            ResultPair path = randomPath();
-            L(""+path.valid + ": " + path.item);
+            //ResultPair path = randomPath();
+            //L(""+path.valid + ": " + path.item);
         }
     }
-    //</editor-fold>
 
+//</editor-fold>
 
-}
+} // ->end public class UrlValidatorTest extends TestCase

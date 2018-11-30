@@ -44,7 +44,7 @@ public class UrlValidatorTest extends TestCase {
         //assertTrue(urlVal.isValid("http://www.facebook.com/"));
         //assertFalse(urlVal.isValid("facebook.com"));
         //assertFalse(urlVal.isValid("htp://www.facebook.com"));
-        assertFalse(urlVal.isValid("http:://www.facebook.com"));
+        //assertFalse(urlVal.isValid("http:://www.facebook.com"));
 
     }
 
@@ -83,6 +83,24 @@ public class UrlValidatorTest extends TestCase {
         UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
         assertFalse(urlVal.isValid("http:://www.facebook.com"));
     }
+
+    public void testManualHTTPSgood(){
+        long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null,null,allowAllScheme);
+        assertTrue(urlVal.isValid("https://www.facebook.com"));
+    }
+
+    public void testManualFTPgood(){
+        long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null,null,allowAllScheme);
+        assertTrue(urlVal.isValid("ftp://www.facebook.com"));
+    }
+    public void testManualNoDotCom(){
+        long allowAllScheme = 1;
+        UrlValidator urlVal = new UrlValidator(null,null, allowAllScheme);
+        assertFalse(urlVal.isValid("https://facebook"));
+    }
+
     // Default constructor should evaluate http,https, ftp as valid urls
     public void testDefaultConstructorFor_UrlValidator() {
         UrlValidator urlVal = new UrlValidator();

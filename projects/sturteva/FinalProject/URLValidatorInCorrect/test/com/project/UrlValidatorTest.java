@@ -94,6 +94,7 @@ public class UrlValidatorTest extends TestCase {
 //</editor-fold>
 
     //<editor-fold desc="Partition Testing Functions" >
+    //DONE: Reed
     public void testSchemePartition() {
     	System.out.println("Starting tests for Scheme partition");
     	long allowAllScheme = 1;
@@ -119,6 +120,7 @@ public class UrlValidatorTest extends TestCase {
     }
 
 
+    //DONE: Reed
     public void testAuthorityPartition() {
     	System.out.println("Starting tests for Authority partition");
     	long allowAllScheme = 1;
@@ -144,6 +146,7 @@ public class UrlValidatorTest extends TestCase {
         assertTrue(pass); //check if both tests passed 
     }
     
+    //DONE: Reed
     public void testPathPartition() {
     	System.out.println("Starting tests for Path partition");
     	long allowAllScheme = 1;
@@ -169,6 +172,7 @@ public class UrlValidatorTest extends TestCase {
 
     }
     
+    //DONE: Reed
     public void testQueryPartition() {
     	System.out.println("Starting tests for Query partition");
     	long allowAllScheme = 1;
@@ -193,6 +197,7 @@ public class UrlValidatorTest extends TestCase {
         assertTrue(pass); //check if both tests passed 
 
     }
+    
     //</editor-fold>
     public void testIsValid() {
         //You can use this function for programming based testing
@@ -217,6 +222,7 @@ public class UrlValidatorTest extends TestCase {
 
     private boolean useTestData = true;
 
+    //DONE: Reed
     private ResultSet randomSchema() {
         // see for example schemes https://commons.apache.org/proper/commons-validator/apidocs/org/apache/commons/validator/routines/UrlValidator.html
     	String scheme;
@@ -258,16 +264,14 @@ public class UrlValidatorTest extends TestCase {
         return rp;
     }
     
+    //DONE: Reed
     private ResultSet randomConnector()
     {
     	String connector;
     	boolean valid;
-    	//array of default accepted schemes
-     	String[] validAuths = new String[] {
-                 "http", "https", "ftp"
-         };
-     	//Make a random number between 0 and 3
-     	int random = (int)(Math.random() * 3);
+
+     	//Make a random number between 0 and 2
+     	int random = (int)(Math.random() * 2);
      	//if we get 0 set connector to valid, else create a random one
      	if(random == 0) {
      		connector = "://";
@@ -297,7 +301,7 @@ public class UrlValidatorTest extends TestCase {
         return rp;
     }
     
-    //TODO: Reed
+    //DONE: Reed
     private ResultSet randomHost()
     {
         String s1 = "make something random";
@@ -308,15 +312,14 @@ public class UrlValidatorTest extends TestCase {
     	boolean valid = true;
 
 
-     	//Make a random number between 0 and 100
-     	int random = (int)(Math.random() * 100);
+     	//Make a random number between 0 and 1000
+     	int random = (int)(Math.random() * 1000);
      	//if we get 0, set host to null, else create a random one
      	if(random == 0) {
      		host = null;
      		valid = false;
      	}
      	else {
-     		//create host between 0 and 5 characters long containing any character between SPACE and ?, including non alphanumeric characters
      		//string of some invalid characters to choose from
      		String invalidChars = "`'^å*();";
      		//string of some valid characters to choose from
@@ -328,8 +331,8 @@ public class UrlValidatorTest extends TestCase {
      	    StringBuilder buffer = new StringBuilder(targetStringLength);
      	    boolean includePeriod = false;
      	    for (int i = 0; i < targetStringLength; i++) {
-     	    	//set a 1 in 1000 chance of invalid character
-     	    	int randomValid = (int)(Math.random() * 1000);
+     	    	//set a 1 in 200 chance of invalid character
+     	    	int randomValid = (int)(Math.random() * 200);
      	    	if (randomValid == 0) {
      	    		int character = (int)(Math.random()*invalidChars.length());
      	    		randomChar = invalidChars.charAt(character);

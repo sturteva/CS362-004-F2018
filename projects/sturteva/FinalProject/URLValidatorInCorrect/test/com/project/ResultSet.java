@@ -1,6 +1,6 @@
 package com.project;
 
-/* Created own class to replace the class ResultPair which was bugy */
+/* Created own class to replace the class ResultPair which was buggy */
 public class ResultSet {
     public String item;
     public boolean valid;

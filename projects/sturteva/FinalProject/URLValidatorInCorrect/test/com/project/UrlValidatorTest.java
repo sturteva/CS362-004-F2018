@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 //Testing my commit
 
-//<editor-fold desc="Various References and Research Topic sources -- i.e. help>
+//<editor-fold desc="Various References and Research Topic sources -- i.e. help">
 ///  Comment:  class not found error  'Class not found: "com.project.UrlValidatorTest"'
 //  When the project definition does not have an output folder defined I consistently
 //  ran into this error.  Got to "Project Structure ctrl-alt-shift-s
@@ -82,6 +82,14 @@ public class UrlValidatorTest extends TestCase {
         long allowAllScheme = 1;
         UrlValidator urlVal = new UrlValidator(null, null, allowAllScheme);
         assertFalse(urlVal.isValid("http:://www.facebook.com"));
+    }
+    // Default constructor should evaluate http,https, ftp as valid urls
+    public void testDefaultConstructorFor_UrlValidator() {
+        UrlValidator urlVal = new UrlValidator();
+        boolean rValue = urlVal.isValid("http:://www.facebook.com");
+        rValue &= urlVal.isValid("https:://www.facebook.com");
+        rValue &= urlVal.isValid("ftp:://www.facebook.com");
+        assertTrue(rValue);
     }
 //</editor-fold>
 
@@ -192,6 +200,8 @@ public class UrlValidatorTest extends TestCase {
     }
 
     //<editor-fold desc="Program Based Testing">
+
+
     //<editor-fold desc="Overview Program Based Testing" >
     //Overview:  The goal is to use a program to generate random inputs for the generating of the url's.
     //The sections of the url will be <scheme><connector><host><path><query>.  These sections correlate
@@ -295,7 +305,7 @@ public class UrlValidatorTest extends TestCase {
         ResultSet rp = new ResultSet(s1, b);
     	String host;
 
-    	Boolean valid = true;
+    	boolean valid = true;
 
 
      	//Make a random number between 0 and 100
@@ -347,11 +357,8 @@ public class UrlValidatorTest extends TestCase {
 
      	}
      	//set result pair
-        ResultPair rp = new ResultPair(host, valid);
-        if (useTestData) {
-            rp.item = "://";
-            rp.valid = true;
-        }
+         rp = new ResultSet(host, valid);
+
         return rp;
     }
     //Done: Andrew
@@ -387,6 +394,7 @@ public class UrlValidatorTest extends TestCase {
     //      probablities 75% accurate expectation ?<param>=<value>&<param2>=<value2>...
     //      25% failures will test between 1-5 param/value pairs and randomly insert ?,=,&
     //      a quick string check will determine if the querry part is correct.
+
     private ResultSet randomQuery()
     {
         StringBuilder s1;// = new StringBuilder();
@@ -494,24 +502,10 @@ public class UrlValidatorTest extends TestCase {
         java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
         java.util.ArrayList<String> urlList = new java.util.ArrayList<>(50);
 
-        if (useTestData)
-        {
-            urlList.add("http://www.facebook.com");
-            urlList.add("http://");
-            urlList.add("http://www.facebook.com:8081");
-            urlList.add("http://www.facebook.com:8081/somepath");
-            urlList.add("http://www.facebook.com/somepath");
-            urlList.add("http://www.facebook.com/somepath/morepath");
-            urlList.add("http://www.facebook.com?params2=values");
-            urlList.add("http://www.facebook.com/path1/path2?qparam1=34&qparam2=678");
-
-            numTests = urlList.size();
-
-        }
 
         L("Starting Random Tests");
-        //UrlValidator urlVal = new UrlValidator();
-        UrlValidator urlVal = new UrlValidator(null, null, 1);
+        UrlValidator urlVal = new UrlValidator();
+        //UrlValidator urlVal = new UrlValidator(null, null, 1); // this should be used if you want to specify your own regex patterns
         for (int i=0; i< numTests; i++)
         {
             ResultSet schema = randomSchema();
@@ -522,11 +516,11 @@ public class UrlValidatorTest extends TestCase {
             String testURL = schema.item + connector.item + host.item + path.item + query.item;
             boolean expectedValue = schema.valid && connector.valid && host.valid && query.valid;
 
-            if (useTestData)
-            {
-                testURL = urlList.get(i);
-                expectedValue = true;
-            }
+//            if (useTestData)
+//            {
+//                testURL = urlList.get(i);
+//                expectedValue = true;
+//            }
             //L("Testing URL: " + testURL);
 
 
@@ -539,14 +533,14 @@ public class UrlValidatorTest extends TestCase {
                 {
                     overallResults = false;
 
-                    String message = ("Error No: " + errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
+                    String message = ("✖ Error No: " + errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
                             " but received " + (!expectedValue ?  "true" : "false") + " for url '"
                             + testURL + "'";
                     errorList.add(message);
                     L(message);
                 }
                 else
-                    L((expectedValue?"Valid Expected and Valid Obtained: ": "Failed Expected and Failed Obtained: ") + testURL);
+                    L((expectedValue?"✔ Valid Expected and Valid Obtained: ": "✔ Failed Expected and Failed Obtained: ") + testURL);
 
             } catch (Exception genericExc) // URL failed and threw an error
             {
@@ -569,8 +563,7 @@ public class UrlValidatorTest extends TestCase {
 
     //<editor-fold desc = "Utility Functions used to test the 'test' functions">
     // empty function to run test java snipits in when checking on java code structure.
-    public void testJavaKnowlege()
-    {
+    public void testJavaKnowlege() {
 //
 //        java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
 //        errorList.add("Message 1");
@@ -583,15 +576,40 @@ public class UrlValidatorTest extends TestCase {
 //        }
 //
 
-        for (int i=0; i < 100; i++)
-        {
-            //ResultSet R = randomSchema();
-            //L(""+R.valid + ": " + R.item);
-            ResultSet path = randomPath();
-            L(""+path.valid + ": " + path.item);
+        // verify parts are generated correctly
+        for (int i = 0; i < 100; i++) {
+            ResultSet R;
+//             R = randomSchema();
+//            L("Schema:" + R.valid + ": " + R.item);
+//            R = randomConnector();
+//            L("Connector:" + R.valid + ": " + R.item);
+            R = randomHost();
+            L("Host:" + R.valid + ": " + R.item);
+//            R = randomPath();
+//            L("Path:" + R.valid + ": " + R.item);
+//            R = randomQuery();
+//            L("Query:" + R.valid + ": " + R.item);
         }
     }
 
+    // Collect the list of failed random tests from the console and double check them.
+    //      put them in the errorList and break on it inspect to make sure it is a valid failure
+    public void testHandEvaluateInvidiualRandomFailures() // apparnetly test functions have to start with word test
+    {
+        java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
+        errorList.add("ftp://www.google.com");
+        errorList.add("ftp://djyDZfETG0jnCb8ZkDB2aPR3PN0us.DTy6DCVd7PXpoBM4X179XOUIVTc5l?eJ1AEUMTAs=UANWpOqzFG&ZNUTruiuWz=heHFOy70MH&GF6v2TPJwu=PU1bygbFGt");
+        errorList.add("FTP://djyDZfETG0jnCb8ZkDB2aPR3PN0us.DTy6DCVd7PXpoBM4X179XOUIVTc5l?eJ1AEUMTAs=UANWpOqzFG&ZNUTruiuWz=heHFOy70MH&GF6v2TPJwu=PU1bygbFGt");
+
+        UrlValidator urlVal = new UrlValidator();
+
+        for (int i = 0; i < errorList.size(); i++)
+        {
+            boolean rValue = urlVal.isValid((errorList.get(i))); // set break point here and evaluate
+            L("rValue: " + rValue);
+        }
+
+    }
 //</editor-fold>
 
 } // ->end public class UrlValidatorTest extends TestCase

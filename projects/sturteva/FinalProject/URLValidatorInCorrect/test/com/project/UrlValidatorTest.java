@@ -2,6 +2,9 @@ package com.project;//import com.project.UrlValidator;
 //import com.project.UrlValidator;
 import junit.framework.TestCase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 //You can use this as a skeleton for your 3 different test approach
 //It is an optional to use this file, you can generate your own test file(s) to test the target function!
 // Again, it is up to you to use this file or not!
@@ -517,32 +520,90 @@ public class UrlValidatorTest extends TestCase {
     //public ErrorCollector ourErrors = new ErrorCollector();
 
     public void testRandomURLs(){
-        int numTests = 10; //100000;
+        int numTests = 100; //100000;
         boolean overallResults = true; // pass
         int exceptionCount =0;
         java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
         java.util.ArrayList<String> urlList = new java.util.ArrayList<>(50);
 
+        /// Pattern Objects from UrlValidator
 
-        L("Starting Random Tests");
-        UrlValidator urlVal = new UrlValidator();
-        //UrlValidator urlVal = new UrlValidator(null, null, 1); // this should be used if you want to specify your own regex patterns
+        String AUTHORITY_CHARS_REGEX = "\\p{Alnum}\\-\\."; // allows for IPV4 but not IPV6
+        String IPV6_REGEX = "[0-9a-fA-F:]+"; // do this as separate match because : could cause ambiguity with port prefix
+
+        // userinfo    = *( unreserved / pct-encoded / sub-delims / ":" )
+        // unreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~"
+        // sub-delims    = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+        // We assume that password has the same valid chars as user info
+        String USERINFO_CHARS_REGEX = "[a-zA-Z0-9%-._~!$&'()*+,;=]";
+        // since neither ':' nor '@' are allowed chars, we don't need to use non-greedy matching
+        String USERINFO_FIELD_REGEX =
+                USERINFO_CHARS_REGEX + "+" + // At least one character for the name
+                        "(?::" + USERINFO_CHARS_REGEX + "*)?@"; // colon and password may be absent
+        String AUTHORITY_REGEX =
+                "(?:\\[("+IPV6_REGEX+")\\]|(?:(?:"+USERINFO_FIELD_REGEX+")?([" + AUTHORITY_CHARS_REGEX + "]*)))(?::(\\d*))?(.*)?";
+        //             1                          e.g. user:pass@          2                                         3       4
+        Pattern AUTHORITY_PATTERN = Pattern.compile(AUTHORITY_REGEX);
+        Pattern URL_PATTERN = Pattern.compile( "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+        Pattern SCHEME_PATTERN = Pattern.compile("^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*");
+        Pattern PATH_PATTERN = Pattern.compile("^(/[-\\w:@&?=+,.!*'%$_;\\(\\)]*)?$");
+        Pattern QUERY_PATTERN = Pattern.compile("^(\\S*)$");
+        //DomainValidator junk = new DomainValidator(true);
+        //L("Starting Random Tests");
+        // Default constructor has a bug
+        //UrlValidator urlVal = new UrlValidator();
+        // This constructor is invalid
+        // UrlValidator urlVal = new UrlValidator(validAuths, null, allowAllSchemes ); if allowedAllSchemes is false it doesn't work
+        String[] validAuths = new String[] { // copied from randomSchemes
+                "http", "https", "ftp"
+        };
+        long allowAllSchemes = 1 ; //0 false 1 True
+        UrlValidator urlVal = new UrlValidator(null, null, allowAllSchemes ); // this should be used if you want to specify your own regex patterns
+
+
         for (int i=0; i< numTests; i++)
         {
-            ResultSet schema = randomSchema();
+            ResultSet schema = new ResultSet("http",true); // all other schemes crash
             ResultSet connector = randomConnector();
-            ResultSet host = randomHost();
+            ResultSet host = randomHost(); //
+            //ResultSet host = new ResultSet("www.facebook.com", true);
             ResultSet path = randomPath();
-            ResultSet query = randomQuery();
+            //ResultSet path = new ResultSet("/a/valid/path", true);
+            //ResultSet path = new ResultSet("", true);
+            //ResultSet query = randomQuery();
+            ResultSet query = new ResultSet("", true);
             String testURL = schema.item + connector.item + host.item + path.item + query.item;
-            boolean expectedValue = schema.valid && connector.valid && host.valid && query.valid;
+            boolean expectedValue = schema.valid && connector.valid  && host.valid && path.valid && query.valid;
+            // Need to find if authority is going to parse to ""
+            // <editor-fold desc="Regex Values pulled from UrlValidator class">
+            // I could not localize the bug futher
+//            String URL_REGEX =
+//                    "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
+//            //        12            3  4          5       6   7        8 9
+//
+//            URL_REGEX =
+//                    "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
+//            //        12            3  4          5       6   7        8 9
+//            testURL = "http://www.facebook.com";
+//            Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
+//            Matcher urlMatcher =  URL_PATTERN.matcher(testURL);
+//            int PARSE_URL_AUTHORITY = 4;
+//            String authority = urlMatcher.group(PARSE_URL_AUTHORITY);
+            //</editor-fold>
+
 
 //            if (useTestData)
 //            {
 //                testURL = urlList.get(i);
 //                expectedValue = true;
 //            }
+           // testURL = "https://www.facebook.com";
             //L("Testing URL: " + testURL);
+//            if (authority == "" )
+//            {
+//                L("Known Issue: Authority is not parseable for URL String: " + testURL);
+//                break;
+//            }
 
 
             boolean assertionFailed;// = false;
@@ -554,14 +615,14 @@ public class UrlValidatorTest extends TestCase {
                 {
                     overallResults = false;
 
-                    String message = ("✖ Error No: " + errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
+                    String message = (i+":✖ Error No: " + errorList.size()) + ": expected " + (expectedValue ? "true" : "false") +
                             " but received " + (!expectedValue ?  "true" : "false") + " for url '"
                             + testURL + "'";
                     errorList.add(message);
                     L(message);
                 }
                 else
-                    L((expectedValue?"✔ Valid Expected and Valid Obtained: ": "✔ Failed Expected and Failed Obtained: ") + testURL);
+                    L((expectedValue?""+i+":✔ Valid Expected and Valid Obtained: ": ""+i+":✔ Failed Expected and Failed Obtained: ") + testURL);
 
             } catch (Exception genericExc) // URL failed and threw an error
             {
@@ -584,7 +645,7 @@ public class UrlValidatorTest extends TestCase {
 
     //<editor-fold desc = "Utility Functions used to test the 'test' functions">
     // empty function to run test java snipits in when checking on java code structure.
-    public void testJavaKnowlege() {
+    public void atestJavaKnowlege() {
 //
 //        java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
 //        errorList.add("Message 1");
@@ -618,11 +679,39 @@ public class UrlValidatorTest extends TestCase {
     public void testHandEvaluateInvidiualRandomFailures() // apparnetly test functions have to start with word test
     {
         java.util.ArrayList<String> errorList = new java.util.ArrayList<>(50);
-        errorList.add("ftp://www.google.com");
-        errorList.add("ftp://djyDZfETG0jnCb8ZkDB2aPR3PN0us.DTy6DCVd7PXpoBM4X179XOUIVTc5l?eJ1AEUMTAs=UANWpOqzFG&ZNUTruiuWz=heHFOy70MH&GF6v2TPJwu=PU1bygbFGt");
-        errorList.add("FTP://djyDZfETG0jnCb8ZkDB2aPR3PN0us.DTy6DCVd7PXpoBM4X179XOUIVTc5l?eJ1AEUMTAs=UANWpOqzFG&ZNUTruiuWz=heHFOy70MH&GF6v2TPJwu=PU1bygbFGt");
+        //  These errors were resolved
+        // The following errors only occured with the default UrlValidator constructor
+//        errorList.add("ftp://www.google.com");
+//        errorList.add("ftp://djyDZfETG0jnCb8ZkDB2aPR3PN0us.DTy6DCVd7PXpoBM4X179XOUIVTc5l?eJ1AEUMTAs=UANWpOqzFG&ZNUTruiuWz=heHFOy70MH&GF6v2TPJwu=PU1bygbFGt");
+//        errorList.add("FTP://djyDZfETG0jnCb8ZkDB2aPR3PN0us.DTy6DCVd7PXpoBM4X179XOUIVTc5l?eJ1AEUMTAs=UANWpOqzFG&ZNUTruiuWz=heHFOy70MH&GF6v2TPJwu=PU1bygbFGt");
+        // end ---default constructor test list ---
+        // this one failed when not using the default constructor -- same problem
+        //errorList.add("https://nmgMdyAeNonGceEdb7GthzKKgI.T4WW/..?SiXNLEiioZ=oehGeK2MiX&QhqoKKbYWQ=xaKsDs0Z1S&T6jwT5R46i=PPCBt8fFyG&QDCJHD5WiI=dWy9L9NsIr&xAQzuHvl8m=VogWVy96Vg");
+        // end --- tested urls
 
-        UrlValidator urlVal = new UrlValidator();
+        // -- this one causes an exception
+        errorList.add("I:///foo/?IwTEZwocNg=CtP1G31QS1&KDCyjbQl13=Old8WPSlSz&DZn8Z7bVkC=ot0fvxXWQp&j22QWRAR0a=r6I0MIHST1");
+        // <editor-fold desc="Regex Values pulled from UrlValidator class">
+        String URL_REGEX =
+                "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
+        //        12            3  4          5       6   7        8 9
+
+        URL_REGEX =
+                "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
+        //        12            3  4          5       6   7        8 9
+        String testURL = "http://www.facebook.com";
+        Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
+        Matcher urlMatcher =  URL_PATTERN.matcher(testURL);
+        int PARSE_URL_AUTHORITY = 4;
+        String authority = urlMatcher.group(PARSE_URL_AUTHORITY);
+        // somehow the Regex is changing to  "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?";
+        //</editor-fold>
+        //UrlValidator urlVal = new UrlValidator();
+        String[] validAuths = new String[] { // copied from randomSchemes
+                "http", "https", "ftp"
+        };
+        long allowAllSchemes = 1 ; // false
+        UrlValidator urlVal = new UrlValidator(validAuths, null, allowAllSchemes ); // this should be used if you want to specify your own regex patterns
 
         for (int i = 0; i < errorList.size(); i++)
         {

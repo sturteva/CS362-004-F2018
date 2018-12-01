@@ -157,9 +157,33 @@ public class UrlValidatorTest extends TestCase {
         }
         
         pass &= urlVal.isValid("http://123.123.423.112"); //good authority
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): http://123.123.423.112");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on http://123.123.423.112");
+        }
+        
         pass &= urlVal.isValid("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]"); //good authority according to
        //this creates an exception pass &= urlVal.isValid("https://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]"); //good authority according to
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]");
+        }
+        
         pass &= urlVal.isValid("https://abcd:abcd:abcd:abcd:abcd:80"); //good authority
+        //check if isValid behaved correctly and print to console
+        if (pass) {
+        	System.out.println("Valid Expected and Valid Obtained (Pass): https://abcd:abcd:abcd:abcd:abcd:80");
+        }
+        else {
+        	System.out.println("Error: Expected pass Obtained fail on https://abcd:abcd:abcd:abcd:abcd:80");
+        }
+        
         
         pass &= !urlVal.isValid("http://ww∑.google.com"); //bad authority, contains invalid character
         //check if isValid behaved correctly and print to console

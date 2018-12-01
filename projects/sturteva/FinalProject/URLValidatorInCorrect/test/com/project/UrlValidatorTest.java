@@ -157,7 +157,8 @@ public class UrlValidatorTest extends TestCase {
         }
         
         pass &= urlVal.isValid("http://123.123.423.112"); //good authority
-        pass &= urlVal.isValid("FEDC:BA98:7654:3210:FEDC:BA98:7654:3210"); //good authority
+        pass &= urlVal.isValid("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]"); //good authority according to
+       //this creates an exception pass &= urlVal.isValid("https://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]"); //good authority according to
         pass &= urlVal.isValid("https://abcd:abcd:abcd:abcd:abcd:80"); //good authority
         
         pass &= !urlVal.isValid("http://ww∑.google.com"); //bad authority, contains invalid character
